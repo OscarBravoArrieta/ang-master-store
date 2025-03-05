@@ -7,6 +7,11 @@
      avatar?: string
 
  }
+ export interface UserToUpdate {
+     email: string
+     name: string
+ }
+
  export interface UserToLog {
      email: string
      password: string

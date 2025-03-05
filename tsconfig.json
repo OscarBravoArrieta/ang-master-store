@@ -11,7 +11,7 @@
         "@dashboard/*": ["app/dashboard/*"],
         "@layout/*": ["app/shared/components/*"],
         "@import/*": ["app/shared/imports/*"],
-        "@model/*": ["app/shared/models*"],
+        "@model/*": ["app/shared/models/*"],
         "@services/*": ["app/shared/services/*"],
         "@utils/*": ["app/shared/utils/*"],
         "@environments/*": ["environments/*"]

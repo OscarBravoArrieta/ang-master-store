@@ -7,6 +7,11 @@
  import { MenuModule } from 'primeng/menu'
  import { DynamicDialogModule } from 'primeng/dynamicdialog'
  import { PasswordModule } from 'primeng/password'
+ import { CardModule } from 'primeng/card'
+ import { FieldsetModule } from 'primeng/fieldset'
+ import { AvatarModule } from 'primeng/avatar'
+ import { ToastModule } from 'primeng/toast'
+ import { ConfirmDialogModule } from 'primeng/confirmdialog'
 
  @NgModule({
      declarations: [],
@@ -18,7 +23,12 @@
          Menu,
          MenuModule,
          DynamicDialogModule,
-         PasswordModule
+         PasswordModule,
+         CardModule,
+         FieldsetModule,
+         AvatarModule,
+         ToastModule,
+         ConfirmDialogModule,
 
      ],
      exports: [
@@ -28,7 +38,13 @@
          Menu,
          MenuModule,
          DynamicDialogModule,
-         PasswordModule
+         PasswordModule,
+         CardModule,
+         FieldsetModule,
+         AvatarModule,
+         ToastModule,
+         ConfirmDialogModule,
+
      ]
  })
  export class PrimeNgModule {}

@@ -28,16 +28,21 @@
                  title: 'Listado de usuarios',
                  loadComponent: () => import ('@admin/users/users-list/users-list.component')
              },
-             {
-                 path: 'auth-login',
-                 title: 'Login',
-                 loadComponent: () => import ('@auth/login/login.component')
-             },
+            //  {
+            //      path: 'auth-login',
+            //      title: 'Login',
+            //      loadComponent: () => import ('@auth/login/login.component')
+            //  },
              {
                  path: 'auth-register',
                  title: 'Crear cuenta',
                  loadComponent: () => import ('@auth/register/register.component')
              },
+             {
+                 path: 'auth-profile',
+                 title: 'User profile',
+                 loadComponent: () => import ('@auth/profile/profile.component')
+            },
          ]
      },
      {

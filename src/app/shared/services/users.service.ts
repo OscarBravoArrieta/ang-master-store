@@ -1,6 +1,6 @@
  import { HttpClient } from '@angular/common/http'
  import { Injectable, inject} from '@angular/core'
- import { User } from '@model/users.model'
+ import { User, UserToUpdate } from '@model/users.model'
  import { environment } from "@environments/environment.development"
 
 
@@ -29,4 +29,12 @@
      }
 
      //--------------------------------------------------------------------------------------------
-  }
+
+     updateUser(id: number | undefined, data: UserToUpdate){
+
+         return this.http.put<User>(`${this.endPoint}/users/${id}`, data)
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+ }

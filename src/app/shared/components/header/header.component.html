@@ -5,60 +5,62 @@
 
             </p-image>
 
-                <!-- @if(currentUserProfile()?.role == 'admin'){ -->
+
+                @if(currentUserProfile()?.role == 'admin'){
 
                     <p-button label="Categorías" size="small" [link]="true" routerLink = "/admin-categories-list"></p-button>
                     <p-button label="Productos" size="small" [link]="true" routerLink = "/admin-products-list"></p-button>
                     <p-button label="Usuarios" size="small" [link]="true" routerLink = "/admin-user-list"></p-button>
 
-                <!-- } -->
+                }
 
         </div>
         <div class="flex justify-content-end align-items-center flex-wrap">
 
 
-            <!-- @if(!currentUserProfile()){ -->
+            @if(!currentUserProfile()){
 
                 <div class="card flex justify-center">
                     <div class="card flex">
-                        <p-button label="Login"  icon="pi pi-user" size="small" severity="info"/>
+                        <p-button label="Login"  icon="pi pi-user" (onClick)="callLogin()" size="small" severity="info"/>
                     </div>
-                </div>
-            <!-- } -->
 
-            <!-- @if(currentUserProfile()){ -->
+
+                </div>
+            }
+
+            @if(currentUserProfile()){
 
                <div class="card flex justify-center">
                    <div class="card flex">
                         <p class="green-50 text-sm">
 
-                            <!-- Hola, {{this.currentUserProfile() ? currentUserProfile()?.name : ''}}. Bienvenido -->
-
+                            Hola, {{this.currentUserProfile() ? currentUserProfile()?.name : ''}}. Bienvenido
 
                         </p>
 
                    </div>
                </div>
-           <!-- } -->
+           }
 
-            <!-- @if((currentUserProfile() && (currentUserProfile()?.role != 'admin')) ){ -->
+            @if((currentUserProfile() && (currentUserProfile()?.role != 'admin')) ){
                 <div class="card flex justify-center ml-2">
                     <div class="card flex">
                         <p-button [rounded]="true" icon="pi pi-shopping-cart"/>
                     </div>
                 </div>
-                <!-- } -->
-                <!-- @if(currentUserProfile()){ -->
+                }
+                @if(currentUserProfile()){
 
                     <div class="card flex justify-center ml-2">
 
                         <div class="card flex">
-                            <!-- <p-menu #menu [model]="items" [popup]="true" />
-                            <p-button (click)="menu.toggle($event)" [rounded]="true" icon="pi pi-user"/> -->
+                            <p-menu #menu [model]="items" [popup]="true" />
+                            <p-button (click)="menu.toggle($event)" [rounded]="true" icon="pi pi-user"/>
                         </div>
 
                     </div>
-                <!-- } -->
+                }
         </div>
 
     </div>

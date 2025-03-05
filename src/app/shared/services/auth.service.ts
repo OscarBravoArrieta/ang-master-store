@@ -5,7 +5,7 @@
  import { LocalStorageService } from '@services/local-storage.service'
  import { TokenService } from '@services/token.service'
  import { switchMap, tap } from 'rxjs/operators'
- import { BehaviorSubject } from 'rxjs'
+ import { Router } from '@angular/router';
 
  @Injectable({
      providedIn: 'root'
@@ -14,10 +14,10 @@
      private http = inject(HttpClient)
      private localStorageService = inject(LocalStorageService)
      private tokenService = inject(TokenService)
+     private router = inject(Router)
      private readonly endPoint = environment.API_URL
 
-     readonly currentUserProfile$ = new BehaviorSubject<User | null>(null)
-     //currentUserProfile = signal<User | null>(null)
+     currentUserProfile = signal<User | null>(null)
 
      constructor() { }
 
@@ -64,10 +64,7 @@
 
          ).pipe(
              tap(currentUserProfile => {
-                 //this.currentUserProfile.set(currentUserProfile)
-                 this.currentUserProfile$.next(currentUserProfile)
-                 console.log('BehaviorSubject...', this.currentUserProfile$.value )
-
+                 this.currentUserProfile.set(currentUserProfile)
              }
             )
          )
@@ -79,6 +76,10 @@
      logOut() {
 
          localStorage.clear()
+         this.router.navigate([''])
+         .then(() => {
+             window.location.reload()
+         })
 
      }
 
