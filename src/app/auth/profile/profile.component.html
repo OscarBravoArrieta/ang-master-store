@@ -30,7 +30,7 @@
                                  Nombre es requerido
                              </small>
                              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
-                                 {{errorFromApi()}}... Error en email y/o nombre de usuario
+                                 {{errorFromApi()}}
                              </small>
                              <label for="rol" class="block text-900 font-medium mb-1">Rol</label>
                              <input value="{{currentUserProfile()?.role}}" [disabled]="true" id="rol" type="text" placeholder="Rol" pInputText pSize="small" class="w-full mb-2">

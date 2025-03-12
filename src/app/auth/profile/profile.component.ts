@@ -110,11 +110,22 @@
 
              this.usersService.updateUser(this.currentUserProfile()?.id, userToUpdate).subscribe({
                  next: (response: User) => {
+                     this.messageService.add({
+                         severity: 'info',
+                         summary: 'Confirmed',
+                         detail: 'Se actualizó el perfil'
+                     });
                      this.currentUserProfile.set(response)
                      this.goHome()
                      this.authService.logOut()
                  }, error: (error: any) => {
-                     this.errorFromApi.set(error.statusText)
+                     this.errorFromApi.set(error.error.message)
+                     this.messageService.add({
+                         severity: 'error',
+                         summary: 'Rechazada',
+                         detail: 'Actualización rechazada',
+                         life: 3000,
+                     });
 
                  }
              })
@@ -124,37 +135,35 @@
      //--------------------------------------------------------------------------------------------
      confirm() {
 
-        this.confirmationService.confirm({
-            message: "Se actualizará el perfil y deberá iniciar sesión nuevamente." + "\n¿Desea continuar?" ,
-            header: 'Información',
-            closable: true,
-            closeOnEscape: false,
-            icon: 'pi pi-question-circle',
-            rejectButtonProps: {
-                label: 'No. Déjalo como está',
-                severity: 'secondary',
-                outlined: true,
+         this.confirmationService.confirm({
+             message: "Se actualizará el perfil y deberá iniciar sesión nuevamente." + "\n¿Desea continuar?" ,
+             header: 'Información',
+             closable: true,
+             closeOnEscape: false,
+             icon: 'pi pi-question-circle',
+             rejectButtonProps: {
+                 label: 'No. Déjalo como está',
+                 severity: 'secondary',
+                 outlined: true,
+             },
+             acceptButtonProps: {
+                 label: 'Si. Actualiza el perfil',
+             },
+             accept: () => {
+                 setTimeout(function(){
+                     console.log("Se actualizó el perfil");
+                 }, 3000)
+                 this.updateUSer()
             },
-            acceptButtonProps: {
-                label: 'Si. Actualiza el perfil',
-            },
-            accept: () => {
-                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Se actualizó el perfil' });
-
-                setTimeout(function(){
-                    console.log("Se actualizó el perfil");
-                }, 3000)
-                this.updateUSer()
-            },
-            reject: () => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Rejected',
-                    detail: 'Actualización rechazada',
-                    life: 3000,
-                });
-            },
-        });
+             reject: () => {
+                 this.messageService.add({
+                     severity: 'error',
+                     summary: 'Cancelado',
+                     detail: 'Actualización cancelada',
+                     life: 3000,
+                 });
+             },
+         });
      }
 
 

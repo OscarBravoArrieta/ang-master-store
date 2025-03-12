@@ -34,6 +34,7 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "strictDomEventTypes": false, /*To resolve: Property 'value' does not exist on type 'EventTarget'*/
   }
 }

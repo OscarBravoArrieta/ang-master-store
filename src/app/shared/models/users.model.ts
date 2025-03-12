@@ -12,6 +12,12 @@
      name: string
  }
 
+ export interface ColUser {
+    field: string
+    header: string
+    sortableColumnDisabled: boolean
+ }
+
  export interface UserToLog {
      email: string
      password: string

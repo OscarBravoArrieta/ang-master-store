@@ -12,6 +12,11 @@
  import { AvatarModule } from 'primeng/avatar'
  import { ToastModule } from 'primeng/toast'
  import { ConfirmDialogModule } from 'primeng/confirmdialog'
+ import { TableModule } from 'primeng/table'
+ import { TooltipModule } from 'primeng/tooltip'
+ import { IconFieldModule } from 'primeng/iconfield'
+ import { InputIconModule } from 'primeng/inputicon'
+ import { ToolbarModule } from 'primeng/toolbar'
 
  @NgModule({
      declarations: [],
@@ -29,6 +34,11 @@
          AvatarModule,
          ToastModule,
          ConfirmDialogModule,
+         TableModule,
+         TooltipModule,
+         IconFieldModule,
+         InputIconModule,
+         ToolbarModule
 
      ],
      exports: [
@@ -44,6 +54,10 @@
          AvatarModule,
          ToastModule,
          ConfirmDialogModule,
+         TableModule,
+         TooltipModule,
+         IconFieldModule,
+         InputIconModule
 
      ]
  })
