@@ -1,1 +1,78 @@
-<p>data-viewer-template works!</p>
+ <p-table #dt
+     [columns] = "cols()"
+     [value] = "dataSource()"
+     responsiveLayout = "scroll"
+     [paginator] = "true"
+     currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
+     [rows] = "10" [showCurrentPageReport]="true"
+     [rowsPerPageOptions]="[10,25,50]"
+     stripedRows
+     styleClass = "p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
+     [scrollable] = "true"
+     scrollHeight = "350px"
+     [tableStyle] = "{'min-width': '75rem'}"
+     [autoLayout] = "true">
+     <ng-template pTemplate="caption">
+         <div class="flex align-items-center justify-content-end">
+
+             <div class = "flex align-items-center justify-content-end">
+                 <p-iconfield>
+                     <p-inputicon class="pi pi-search" />
+                     <input
+                         pInputText
+                         type="text"
+                         (input)="dt.filterGlobal($event.target.value, 'contains')"
+                         placeholder ="Buscar"
+                         size="small" />
+                 </p-iconfield>
+             </div>
+         </div>
+
+     </ng-template>
+
+     <ng-template #header let-columns>
+         <tr class="p-selectable-row font-bold text-primary">
+             @for (col of columns; track col) {
+                 <th pSortableColumn="{{col.field}}" pSortableColumnDisabled="{{col.sortableColumnDisabled}}">
+
+                     {{col.header}}
+                     @if(!col.sortableColumnDisabled) {
+                         <p-sortIcon field="{{col.field}}" />
+                     }
+
+                 </th>
+             }
+             <th style="text-align:center;">Acciones</th>
+         </tr>
+
+     </ng-template>
+     <ng-template pTemplate="body" let-rowData let-columns="columns">
+         <tr class="p-selectable-row font-table">
+             @for (col of columns; track col) {
+                 <td>
+                     @switch(col.contentType) {
+                         @case('image-avatar'){
+                            <p-avatar
+                                 image="{{rowData[col.field] }}"
+                                 shape="circle"
+                            />
+                         }
+                         @case('string'){
+                             <label> {{rowData[col.field]}}</label>
+
+                         }
+                     }
+                 </td>
+             }
+
+             <td style="text-align:center;">
+                 <div class="sizes">
+                     <p-button label="" icon="pi pi-pencil" styleClass="p-button-sm p-button-rounded p-button-outlined"  pTooltip="Ver detalles: {{rowData.name}}"></p-button>
+                 </div>
+             </td>
+         </tr>
+     </ng-template>
+     <ng-template pTemplate="summary">
+         <span class = "font-sub-title">Total registros en esta vista: {{dataSource().length | number }} </span>
+     </ng-template>
+ </p-table>
