@@ -59,6 +59,20 @@
                          }
                          @case('string'){
                              <label> {{rowData[col.field]}}</label>
+                         }
+                         @case('number'){
+                            <div class="flex justify-content-end flex-wrap">
+                                <label> {{rowData[col.field] | number}}</label>
+                            </div>
+
+                         }
+                         @case('object'){
+                            <span> {{rowData[col.field].name}}</span>
+
+                         }
+                         @case('image-array'){
+                            <p-image src="{{rowData[col.field][0]}}" width="30" [preview]="true"/>
+
 
                          }
                      }
@@ -67,7 +81,7 @@
 
              <td style="text-align:center;">
                  <div class="sizes">
-                     <p-button label="" icon="pi pi-pencil" styleClass="p-button-sm p-button-rounded p-button-outlined"  pTooltip="Ver detalles: {{rowData.name}}"></p-button>
+                     <p-button label="" icon="pi pi-pencil" styleClass="p-button-sm p-button-rounded p-button-outlined"  pTooltip="Ver detalles"></p-button>
                  </div>
              </td>
          </tr>

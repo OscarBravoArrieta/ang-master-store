@@ -49,7 +49,7 @@
 
          this.cols.set([
 
-             {field: 'id', header: 'Id', sortableColumnDisabled: false, contentType: 'string' },
+             {field: 'id', header: 'Id', sortableColumnDisabled: false, contentType: 'number' },
              {field: 'name', header: 'Name', sortableColumnDisabled: false, contentType: 'string' },
              {field: 'role', header: 'Role', sortableColumnDisabled: false, contentType: 'string' },
              {field: 'email', header: 'Email', sortableColumnDisabled: false, contentType: 'string' },
