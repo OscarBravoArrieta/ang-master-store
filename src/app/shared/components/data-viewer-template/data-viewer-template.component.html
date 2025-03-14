@@ -27,9 +27,7 @@
                  </p-iconfield>
              </div>
          </div>
-
      </ng-template>
-
      <ng-template #header let-columns>
          <tr class="p-selectable-row font-bold text-primary">
              @for (col of columns; track col) {
@@ -52,35 +50,34 @@
                  <td>
                      @switch(col.contentType) {
                          @case('image-avatar'){
-                            <p-avatar
+                             <p-avatar
                                  image="{{rowData[col.field] }}"
                                  shape="circle"
-                            />
+                             />
                          }
                          @case('string'){
                              <label> {{rowData[col.field]}}</label>
                          }
                          @case('number'){
-                            <div class="flex justify-content-end flex-wrap">
-                                <label> {{rowData[col.field] | number}}</label>
-                            </div>
-
+                             <div class="flex justify-content-end flex-wrap">
+                                 <label> {{rowData[col.field] | number}}</label>
+                             </div>
                          }
                          @case('object'){
-                            <span> {{rowData[col.field].name}}</span>
-
+                             <span> {{rowData[col.field].name}}</span>
                          }
                          @case('image-array'){
                             <p-image src="{{rowData[col.field][0]}}" width="30" [preview]="true"/>
-
-
+                         }
+                         @case('image'){
+                            <p-image src="{{rowData[col.field]}}" width="30" [preview]="true"/>
                          }
                      }
                  </td>
              }
 
              <td style="text-align:center;">
-                 <div class="sizes">
+                 <div>
                      <p-button label="" icon="pi pi-pencil" styleClass="p-button-sm p-button-rounded p-button-outlined"  pTooltip="Ver detalles"></p-button>
                  </div>
              </td>

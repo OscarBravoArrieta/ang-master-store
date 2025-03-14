@@ -1,1 +1,20 @@
-<h1>categories-list works!</h1>
+<div class="flex flex-wrap align-items-center justify-content-center mt-8">
+    <p-card class="p-8">
+        <p-toolbar styleClass="mb-2">
+            <ng-template #start>
+                <span class="text-xl font-bold">Categorías</span>
+            </ng-template>
+
+            <ng-template #end>
+                <p-button label="Nuevo" icon="pi pi-plus" class="mr-2" />
+            </ng-template>
+        </p-toolbar>
+
+         @if(dataSource()){
+            <app-data-viewer-template
+                [dataSource] = "dataSource()"
+                [cols] = "cols()"
+            />
+        }
+    </p-card>
+</div>
