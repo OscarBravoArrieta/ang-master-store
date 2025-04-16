@@ -1,7 +1,6 @@
  import { Component, inject, signal } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
- import { Toolbar } from 'primeng/toolbar'
  import { UsersService } from '@services/users.service'
  import { User } from '@model/users.model'
  import { DataSchema } from '@model/data-schema.model'
@@ -9,14 +8,15 @@
 
  @Component({
      selector: 'app-users-list',
-     imports: [PrimeNgModule, CommonModule, Toolbar, DataViewerTemplateComponent ],
+     imports: [PrimeNgModule, CommonModule, DataViewerTemplateComponent ],
      templateUrl: './users-list.component.html',
      styleUrl: './users-list.component.scss'
  })
  export default class UsersListComponent {
 
      readonly userService = inject (UsersService)
-     dataSource = signal<User[]>([])
+     dataSet = signal<User[]>([])
+     dataSource = signal<string>('users')
      cols = signal<DataSchema[]>([])
 
      //--------------------------------------------------------------------------------------------
@@ -30,9 +30,9 @@
      getUsers() {
 
          this.userService.getUsers().subscribe({
-             next: (dataSource) => {
+             next: (dataSet) => {
 
-                 this.dataSource.set(dataSource)
+                 this.dataSet.set(dataSet)
                  this.getCols()
 
              }, error: (error) => {

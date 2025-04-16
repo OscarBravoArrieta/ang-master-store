@@ -1,0 +1,35 @@
+ <div class="flex flex-wrap align-items-center justify-content-center mt-8">
+
+     <p-card class="p-8">
+         <p-fileupload
+             #fu
+             name="demo[]"
+             url=""
+             (onSelect)="onUpload($event)"
+             [multiple]="true"
+             accept="application/json"
+             maxFileSize="1000000"
+             mode="advanced"
+             chooseLabel="Seleccionar Archivo"
+             uploadLabel="Subir"
+         />
+         <p-button label="Upload" (onUpload)="fu.upload()" severity="secondary" />
+
+         <p-button (click)="exportToExcel()" label="Exportar a excel" icon="pi pi-file-excel" class="ml-2" />
+
+            <div>
+                <h4>Contents of {{ filename }}</h4>
+                <pre>{{ contents }}</pre>
+              </div>
+
+
+
+
+    </p-card>
+ </div>
+
+ <!-- Subida de archivos con Http
+ https://platzi.com/clases/2495-angular-apis/41424-subida-de-archivos-con-http/ -->
+
+ <!-- https://www.youtube.com/watch?v=0Y-aiawjkXc
+ Cómo ENVIAR archivos mediante HTTP en Angular ⚡Tutorial Completo 2023 -->

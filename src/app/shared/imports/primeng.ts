@@ -17,6 +17,7 @@
  import { IconFieldModule } from 'primeng/iconfield'
  import { InputIconModule } from 'primeng/inputicon'
  import { ToolbarModule } from 'primeng/toolbar'
+ import { FileUploadModule } from 'primeng/fileupload'
 
  @NgModule({
      declarations: [],
@@ -38,7 +39,8 @@
          TooltipModule,
          IconFieldModule,
          InputIconModule,
-         ToolbarModule
+         ToolbarModule,
+         FileUploadModule
 
      ],
      exports: [
@@ -57,7 +59,8 @@
          TableModule,
          TooltipModule,
          IconFieldModule,
-         InputIconModule
+         InputIconModule,
+         FileUploadModule
 
      ]
  })

@@ -1,6 +1,6 @@
  <p-table #dt
      [columns] = "cols()"
-     [value] = "dataSource()"
+     [value] = "dataSet()"
      responsiveLayout = "scroll"
      [paginator] = "true"
      currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
@@ -13,18 +13,26 @@
      [tableStyle] = "{'min-width': '75rem'}"
      [autoLayout] = "true">
      <ng-template pTemplate="caption">
-         <div class="flex align-items-center justify-content-end">
+         <div class="flex align-items-center justify-content-between">
+             <span class="text-xl font-bold">{{dataSource() | titlecase }}</span>
+             <div class = "flex align-items-end">
 
-             <div class = "flex align-items-center justify-content-end">
-                 <p-iconfield>
-                     <p-inputicon class="pi pi-search" />
-                     <input
-                         pInputText
-                         type="text"
-                         (input)="dt.filterGlobal($event.target.value, 'contains')"
-                         placeholder ="Buscar"
-                         size="small" />
-                 </p-iconfield>
+                <p-iconfield>
+                    <p-inputicon class="pi pi-search" />
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder ="Buscar"
+                        size="small"/>
+                </p-iconfield>
+                <p-button
+                     label="Nuevo"
+                     icon="pi pi-plus"
+                     class="ml-2"
+                     (click) = "callDialog(null, 'new')"
+                 />
+
              </div>
          </div>
      </ng-template>
@@ -76,14 +84,28 @@
                  </td>
              }
 
-             <td style="text-align:center;">
-                 <div>
-                     <p-button label="" icon="pi pi-pencil" styleClass="p-button-sm p-button-rounded p-button-outlined"  pTooltip="Ver detalles"></p-button>
+             <td>
+                 <div class="flex justify-content-center flex-wrap">
+                     <p-button
+                         (click) = "callDialog(rowData.id, 'view')"
+                         class = "mr-2"
+                         icon = "pi pi-eye"
+                         styleClass = "p-button-sm p-button-rounded p-button-outlined"
+                         pTooltip = "Ver detalles">
+                     </p-button>
+                     <p-button
+                        (click) = "callDialog(rowData.id, 'edit')"
+                        class = ""
+                        icon = "pi pi-pencil"
+                        styleClass = "p-button-sm p-button-rounded p-button-outlined"
+                        pTooltip = "Actualizar">
+                     </p-button>
                  </div>
+
              </td>
          </tr>
      </ng-template>
      <ng-template pTemplate="summary">
-         <span class = "font-sub-title">Total registros en esta vista: {{dataSource().length | number }} </span>
+         <span class = "font-sub-title">Total registros en esta vista: {{dataSet().length | number }} </span>
      </ng-template>
  </p-table>

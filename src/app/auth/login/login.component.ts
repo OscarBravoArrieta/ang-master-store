@@ -1,12 +1,10 @@
- import { Component, inject, signal, } from '@angular/core'
+ import { Component, inject, signal } from '@angular/core'
  import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
  import { AuthService } from '@services/auth.service'
-
  import { DynamicDialogRef } from 'primeng/dynamicdialog'
-
  import { Router, RouterModule } from '@angular/router'
- import { UserToLog, Token, User  } from '@model/users.model'
+ import { UserToLog, User  } from '@model/users.model'
 
 
  @Component({
@@ -15,8 +13,7 @@
          PrimeNgModule,
          FormsModule,
          RouterModule,
-         ReactiveFormsModule,
-
+         ReactiveFormsModule
      ],
      templateUrl: './login.component.html',
      styleUrl: './login.component.scss'
@@ -45,8 +42,8 @@
      private buildForm() {
 
          this.form = this.formBuilder.group ({
-             email: ['', Validators.compose([Validators.email, Validators.required])],
-             password: ['',[Validators.required]],
+             email: [null, Validators.compose([Validators.email, Validators.required])],
+             password: [null,[Validators.required]],
          })
 
      }
@@ -80,9 +77,6 @@
                  next: (response: User) => {
 
                      const currentUserProfile = response
-                     console.log('currentUserProfile desde login...',currentUserProfile )
-                     //this.router.navigate([''])
-
 
                      if (currentUserProfile.role === 'customer') {
 
@@ -106,12 +100,12 @@
 
      // -------------------------------------------------------------------------------------------
 
-    ngOnDestroy() {
+     ngOnDestroy() {
 
         if (this.ref) {
             this.ref.close()
         }
-    }
+     }
 
 
 

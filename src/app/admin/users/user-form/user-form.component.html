@@ -1,0 +1,55 @@
+<div class="surface-card p-3 shadow-2 border-round w-full">
+    <form [formGroup]="form" (ngSubmit)="register()" >
+
+         <div class="">
+
+             <label for="name" class="block text-900 font-medium mb-1">Name</label>
+             <input id="name" type="text" formControlName="name" placeholder="Name" pInputText pSize="small" class="w-full mb-2">
+             <small class="p-error flex align-items-center message-error text-xs mb-2" [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
+                Nombre es requerido
+             </small>
+             <label for="email" class="block text-900 font-medium mb-1">Email</label>
+             <input id="email" type="text" formControlName="email" placeholder="Email" pInputText pSize="small" class="w-full mb-2">
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
+                 Correo electrónico es requerido
+             </small>
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
+                No es un email válido
+            </small>
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "emailExists() && !statusForm()" >
+                Email ya ha sido usado
+            </small>
+
+            <label for="password" class="block text-900 font-medium mb-1">Password</label>
+            <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
+                Password es requerido
+            </small>
+
+            <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirm password</label>
+            <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full"  formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
+                Confirmación password es requerido
+            </small>
+            <small class="p-error flex align-items-center message-error" [class.show] = "!this.form.get('passwordConfirm')?.errors?.['mismatch'] && statusForm()" >
+                 Passwords no coinciden
+            </small>
+
+            <label for="avatar" class="block text-900 font-medium mb-1">Avatar</label>
+            <input id="avatar" type="text" formControlName="avatar" placeholder="Avatar" pInputText pSize="small" class="w-full mb-2">
+
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
+                Avatar es requerido
+            </small>
+            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
+                {{errorFromApi()}}... Error en nombre usuario y/o contraseña
+           </small>
+            <button pButton pRipple label="Register" icon="pi pi-user-plus" type = 'submit' class="w-full mt-3"></button>
+       </div>
+   </form>
+</div>

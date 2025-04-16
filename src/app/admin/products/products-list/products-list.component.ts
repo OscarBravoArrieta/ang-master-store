@@ -1,7 +1,6 @@
  import { Component, inject, signal } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
- import { Toolbar } from 'primeng/toolbar'
  import { ProductsService } from '@services/products.service'
  import { Product } from '@model/products.model'
  import { DataSchema } from '@model/data-schema.model'
@@ -10,14 +9,15 @@
 
  @Component({
      selector: 'app-products-list',
-     imports: [PrimeNgModule, CommonModule, Toolbar, DataViewerTemplateComponent],
+     imports: [PrimeNgModule, CommonModule, DataViewerTemplateComponent],
      templateUrl: './products-list.component.html',
      styleUrl: './products-list.component.scss'
  })
  export default class ProductsListComponent {
 
      readonly productsService = inject (ProductsService)
-     dataSource = signal<Product[]>([])
+     dataSet = signal<Product[]>([])
+     dataSource = signal<string>('products')
      cols = signal<DataSchema[]>([])
 
      //--------------------------------------------------------------------------------------------
@@ -32,8 +32,8 @@
      getUsers() {
 
          this.productsService.getProducts().subscribe({
-             next: (datasource) => {
-                 this.dataSource.set(datasource)
+             next: (dataSet) => {
+                 this.dataSet.set(dataSet)
                  this.getCols()
 
              }

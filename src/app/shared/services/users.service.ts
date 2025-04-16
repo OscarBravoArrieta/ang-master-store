@@ -30,6 +30,15 @@
 
      //--------------------------------------------------------------------------------------------
 
+     createUser(user: User) {
+
+         return this.http.post<User>(`${this.endPoint}/users/`, user)
+
+     }
+
+
+     //--------------------------------------------------------------------------------------------
+
      updateUser(id: number | undefined, data: UserToUpdate){
 
          return this.http.put<User>(`${this.endPoint}/users/${id}`, data)

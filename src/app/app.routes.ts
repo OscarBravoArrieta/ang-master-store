@@ -28,6 +28,13 @@
                  title: 'Listado de usuarios',
                  loadComponent: () => import ('@admin/users/users-list/users-list.component')
              },
+             {
+                 path: 'admin-file-interface',
+                 title: 'Interface de archivos',
+                 loadComponent: () => import ('@file-interface/extract-from-json/extract-from-json.component')
+
+
+             },
             //  {
             //      path: 'auth-login',
             //      title: 'Login',
