@@ -1,29 +1,35 @@
  <div class="flex flex-wrap align-items-center justify-content-center mt-8">
-
      <p-card class="p-8">
+          <p-toast />
          <p-fileupload
              #fu
-             name="demo[]"
-             url=""
-             (onSelect)="onUpload($event)"
-             [multiple]="true"
-             accept="application/json"
-             maxFileSize="1000000"
-             mode="advanced"
-             chooseLabel="Seleccionar Archivo"
-             uploadLabel="Subir"
-         />
-         <p-button label="Upload" (onUpload)="fu.upload()" severity="secondary" />
+             name = "uploadedFiles[]"
+             url = "/public/json"
+             (onSelect) = "onUpload($event)"
+             [multiple] = "false"
+             auto="true"
+             accept = "application/json"
+             maxFileSize = "5000000"
+             mode = "advanced"
+             chooseLabel = "Seleccionar Archivo"
+             uploadLabel = "Subir"
+             cancelLabel = "Cancelar"
+         >
+             <ng-template #empty>
+                 <div>Arrastre y suelte el archivo aquí para cargarlo.</div>
+             </ng-template>
 
-         <p-button (click)="exportToExcel()" label="Exportar a excel" icon="pi pi-file-excel" class="ml-2" />
+         </p-fileupload>
+         <div>
 
-            <div>
-                <h4>Contents of {{ filename }}</h4>
-                <pre>{{ contents }}</pre>
-              </div>
+             @if(filename){
+                 <h4>Contenido del archivo {{ filename }}</h4>
+                 <pre>{{ contents }}</pre>
 
-
-
+             }@else{
+                 <h4>Ningún archivo sleccionado</h4>
+             }
+         </div>
 
     </p-card>
  </div>

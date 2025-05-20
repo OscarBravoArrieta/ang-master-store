@@ -1,5 +1,5 @@
 <div class="surface-card p-3 shadow-2 border-round w-full">
-    <form [formGroup]="form" (ngSubmit)="register()" >
+    <form [formGroup]="form" (ngSubmit)="save()" >
 
          <div class="">
 
@@ -11,45 +11,58 @@
              <label for="email" class="block text-900 font-medium mb-1">Email</label>
              <input id="email" type="text" formControlName="email" placeholder="Email" pInputText pSize="small" class="w-full mb-2">
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
                  Correo electrónico es requerido
              </small>
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
-                No es un email válido
-            </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
+                 No es un email válido
+             </small>
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "emailExists() && !statusForm()" >
-                Email ya ha sido usado
-            </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "emailExists() && !statusForm()" >
+                 Email ya ha sido usado
+             </small>
 
-            <label for="password" class="block text-900 font-medium mb-1">Password</label>
-            <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
+             @if(mode() == 'new' || mode() == 'view') {
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
-                Password es requerido
-            </small>
+                 <label for="password" class="block text-900 font-medium mb-1">Password {{statusForm()}}</label>
+                 <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
 
-            <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirm password</label>
-            <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full"  formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
+                     Password es requerido
+                 </small>
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
-                Confirmación password es requerido
-            </small>
-            <small class="p-error flex align-items-center message-error" [class.show] = "!this.form.get('passwordConfirm')?.errors?.['mismatch'] && statusForm()" >
-                 Passwords no coinciden
-            </small>
+                 <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirm password</label>
+                 <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full"  formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
 
-            <label for="avatar" class="block text-900 font-medium mb-1">Avatar</label>
-            <input id="avatar" type="text" formControlName="avatar" placeholder="Avatar" pInputText pSize="small" class="w-full mb-2">
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['required'] && statusForm()" >
+                     Confirmación password es requerido
+                 </small>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['mismatch'] && statusForm()" >
+                     Passwords no coinciden
+                 </small>
+             }
 
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
-                Avatar es requerido
-            </small>
-            <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
+             @if(mode() == 'new') {
+                 <label for="avatar" class="block text-900 font-medium mb-1">Avatar</label>
+                 <input id="avatar" type="text" formControlName="avatar" placeholder="Avatar" pInputText pSize="small" class="w-full mb-2">
+
+                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('avatar')?.errors?.['required'] && statusForm()" >
+                    Avatar es requerido
+                </small>
+             }
+             @if(mode() == 'new' || mode() == 'view') {
+                <div class="flex justify-content-center flex-wrap">
+                    <p-avatar size="xlarge"
+                        image="{{currentUser()?.avatar}}"
+                        shape="circle"
+                    />
+                </div>
+             }
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
                 {{errorFromApi()}}... Error en nombre usuario y/o contraseña
-           </small>
-            <button pButton pRipple label="Register" icon="pi pi-user-plus" type = 'submit' class="w-full mt-3"></button>
-       </div>
+             </small>
+             <button pButton pRipple label="Save" [disabled]="isEditable()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
+         </div>
    </form>
 </div>

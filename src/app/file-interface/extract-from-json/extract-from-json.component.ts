@@ -2,111 +2,118 @@
  import { PrimeNgModule } from '@import/primeng'
  import { ExportService } from '@services/export.service'
  import { FileUpload } from 'primeng/fileupload'
-
- interface UploadEvent {
-    originalEvent: Event;
-    files: File[];
-}
-
+ import { MessageService } from 'primeng/api'
 
  @Component({
      selector: 'app-extract-from-json',
      imports: [PrimeNgModule, FileUpload],
      templateUrl: './extract-from-json.component.html',
-     styleUrl: './extract-from-json.component.scss'
+     styleUrl: './extract-from-json.component.scss',
+     providers: [MessageService]
  })
  export default class ExtractFromJsonComponent {
 
      readonly exportService = inject(ExportService)
-     filetype = "application/json"
-     maxFileSize = 10000000
-     contents: any = null
+     readonly messageService = inject(MessageService)
+     contents: any
      filename: string = ''
+     jsonData: any
 
-     public onUpload(event: any) {
-        console.log('Reading file...', event.files[0]);
-        for (const file of event.files) {
-          const dataset = this.readFile(file);
-          console.log('onUpload: ', dataset);
-        }
-
-      }
-
-      private readFile(file: File) {
-        const reader: FileReader = new FileReader();
-        console.log('Reader...', reader)
-        reader.onload = () => {
-            console.log('readFile: ', reader.result);
-            this.contents = reader.result;
-        };
-        reader.readAsText(file);
-        this.filename = file.name;
-      }
-
-
-     exportToExcel(): void {
-        // Supongamos que tienes un JSON grande cargado
-        const jsonData = [
-            {
-                "id": 1,
-                "name": "Clothes",
-                "slug": "clothes",
-                "image": "https://i.imgur.com/QkIa5tT.jpeg",
-                "creationAt": "2025-03-20T10:44:54.000Z",
-                "updatedAt": "2025-03-20T23:20:08.000Z"
-                },
-                {
-                "id": 2,
-                "name": "Say My Name",
-                "slug": "say-my-name",
-                "image": "https://i.imgur.com/ZANVnHE.jpeg",
-                "creationAt": "2025-03-20T10:44:54.000Z",
-                "updatedAt": "2025-03-20T23:05:12.000Z"
-                },
-                {
-                "id": 3,
-                "name": "Furniture",
-                "slug": "furniture",
-                "image": "https://i.imgur.com/Qphac99.jpeg",
-                "creationAt": "2025-03-20T10:44:54.000Z",
-                "updatedAt": "2025-03-20T10:44:54.000Z"
-                },
-                {
-                "id": 4,
-                "name": "Shoes",
-                "slug": "shoes",
-                "image": "https://i.imgur.com/qNOjJje.jpeg",
-                "creationAt": "2025-03-20T10:44:54.000Z",
-                "updatedAt": "2025-03-20T10:44:54.000Z"
-                },
-                {
-                "id": 5,
-                "name": "Miscellaneous",
-                "slug": "miscellaneous",
-                "image": "https://i.imgur.com/BG8J0Fj.jpg",
-                "creationAt": "2025-03-20T10:44:54.000Z",
-                "updatedAt": "2025-03-20T10:44:54.000Z"
-                },
-                {
-                "id": 8,
-                "name": "Royal Items",
-                "slug": "royal-items",
-                "image": "https://i.imgur.com/49FiVI0.png",
-                "creationAt": "2025-03-20T19:57:24.000Z",
-                "updatedAt": "2025-03-20T19:57:24.000Z"
-                },
-                {
-                "id": 17,
-                "name": "Messi",
-                "slug": "messi",
-                "image": "https://api.escuelajs.co/api/v1/files/21af.jpg",
-                "creationAt": "2025-03-20T23:01:15.000Z",
-                "updatedAt": "2025-03-20T23:22:06.000Z"
-                }
-        ]
-        this.exportService.exportJsonToExcel(jsonData, 'MiArchivoExcel')
+     onUpload(event: any) {
+         const file = event.currentFiles[0]
+         this.readFile(file)
+         this.messageService.add({severity: 'info', summary: 'Procesando...', detail: ''})
      }
 
- }
+     //--------------------------------------------------------------------------------------------
 
-// https://www.google.com/search?q=convertir+json+a+excel+desde+angular+19&oq=convertir+json+a+excel+desde+angular+19&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigAdIBCTE1MDY5ajBqN6gCALACAA&sourceid=chrome&ie=UTF-8
+     readFile(file: File) {
+         try {
+             const reader: FileReader = new FileReader()
+             reader.onload = async () => {
+
+                 this.contents = reader.result
+                 this.jsonData = JSON.parse(this.contents)
+                 this.forEachJson()
+             }
+             reader.readAsText(file)
+             this.filename = file.name
+
+         } catch (error) {
+
+             this.messageService.add({severity: 'info', summary: 'Error', detail: ''})
+
+         }
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     readJson(){
+
+         this.exportService.readJson().subscribe({
+             next: (res) => {
+                 this.jsonData = JSON.parse(res)
+                 this.forEachJson()
+             }, error: (error) => {
+                 console.log('Error al leer el archivo...',error)
+             }
+         })
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     forEachJson() {
+
+         let users: any = []
+         let queries: any = []
+         let procedures: any = []
+         let medications: any = []
+         let otherServices: any = []
+         let fileDate = new Date().toISOString()
+
+         Object.entries(this.jsonData.usuarios).forEach(([key, value]) => {
+
+             const currentQueries = this.jsonData.usuarios[key].servicios.consultas
+             const currentProcedures = this.jsonData.usuarios[key].servicios.procedimientos
+             const currentMedications = this.jsonData.usuarios[key].servicios.medicamentos
+             const currentOtherServices = this.jsonData.usuarios[key].servicios.otrosServicios
+
+             users.push(value)
+
+             this.pushServices(currentQueries, queries)
+             this.pushServices(currentProcedures, procedures)
+             this.pushServices(currentMedications, medications)
+             this.pushServices(currentOtherServices, otherServices)
+
+         })
+
+         this.exportService.exportJsonToExcel(users, 'Usuarios-' + fileDate)
+         this.exportService.exportJsonToExcel(procedures, 'Procedimientos-' + fileDate)
+         this.exportService.exportJsonToExcel(queries, 'Consultas-' + fileDate)
+         this.exportService.exportJsonToExcel(medications, 'Medicamentos-' + fileDate)
+         this.exportService.exportJsonToExcel(otherServices, 'OtrosServicios-' + fileDate)
+
+         return true
+
+
+     }
+     //--------------------------------------------------------------------------------------------
+
+     pushServices(service: any, objectArray: any) {
+         if(service) {
+             Object.entries(service).forEach(([k, v]) => {
+                 objectArray.push(v)
+             })
+         }
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     //https://stackoverflow.com/questions/52292488/upload-file-with-primeng-upload-component
+     //https://stackoverflow.com/questions/50335329/p-fileupload-how-to-read-file-after-upload
+     //https://platzi.com/cursos/angular-apis/subida-de-archivos-con-http/
+
+
+ }

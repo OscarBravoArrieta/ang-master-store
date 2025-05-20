@@ -1,11 +1,24 @@
- import { Injectable } from '@angular/core'
+ import { inject, Injectable } from '@angular/core'
+ import { HttpClient, HttpHeaders } from '@angular/common/http'
  import * as XLSX from 'xlsx'
  import { saveAs } from 'file-saver'
+ import { environment } from '@environments/environment.development';
+ import { Observable } from 'rxjs';
 
  @Injectable({
      providedIn: 'root'
  })
  export class ExportService {
+
+     private http = inject(HttpClient)
+     private apiJson: string = environment.JSON_URL
+
+     httpOptions = {
+         headers: new HttpHeaders({
+             'Content-Type':  'application/json; charset=utf-8',
+             "Access-Control-Allow-Origin": "*",
+         }
+     ), responseType: 'text' as 'json'}
 
      constructor() { }
 
@@ -34,4 +47,19 @@
       }
 
      //--------------------------------------------------------------------------------------------
+
+     readJson() {
+
+         return this.http.get<any>(`${this.apiJson}`, this.httpOptions)
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+     uploadFile(file: Blob): Observable<any> {
+         const form = new FormData()
+         form.append('file', file)
+         console.log('File recibido', file)
+         const headers = new HttpHeaders().set("Content-Type", "application/json")
+         return this.http.post(`${environment.UPLOAD_FILES}/`, file,  this.httpOptions)
+     }
  }

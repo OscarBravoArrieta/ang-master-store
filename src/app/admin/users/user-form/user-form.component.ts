@@ -4,7 +4,7 @@
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { UsersService } from '@services/users.service'
  import { Router, RouterModule } from '@angular/router'
- import { User } from '@model/users.model'
+ import { User, UserToUpdate} from '@model/users.model'
  import { CustomValidators } from '@utils/custom-validation'
 
  @Component({
@@ -31,7 +31,8 @@
      emailExists = signal<boolean>(false)
      currentUser = signal<User | undefined>(undefined)
      currentId = signal<number>(0)
-     mode = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+     isEditable = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+     mode = signal<string>('')
 
      //--------------------------------------------------------------------------------------------
 
@@ -48,7 +49,8 @@
          if (this.dynamicDialogConfig.data) {
 
              this.currentId.set(this.dynamicDialogConfig.data.id)
-             this.mode.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+             this.isEditable.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+             this.mode.set(this.dynamicDialogConfig.data.mode)
              this.getUser()
 
          }
@@ -60,7 +62,7 @@
      private buildForm() {
 
          this.form = this.formBuilder.group ({
-             name: [{value: null, disabled: this.mode()},
+             name: [{value: null, disabled: this.isEditable()},
                      Validators.compose(
                      [
                          Validators.required,
@@ -68,14 +70,14 @@
                      ]
                  )
              ],
-             email: [{value: null, disabled: this.mode()}, Validators.compose(
+             email: [{value: null, disabled: this.isEditable()}, Validators.compose(
                      [
                          Validators.email,
                          Validators.required
                      ]
                  )
              ],
-             password: [ {value: null, disabled: this.mode()},
+             password: [ {value: null, disabled: this.isEditable()},
                  Validators.compose( [
                          Validators.minLength(8),
                          Validators.required,
@@ -84,7 +86,7 @@
                      ]
                  )
              ],
-            passwordConfirm: [{value: null, disabled: this.mode()}, Validators.compose(
+            passwordConfirm: [{value: null, disabled: this.isEditable()}, Validators.compose(
                      [
                          Validators.minLength(8),
                          Validators.required,
@@ -92,7 +94,7 @@
                  )
              ],
              avatar: [
-                {value: null, disabled: this.mode()},
+                {value: null, disabled: this.isEditable()},
                  Validators.compose(
                      [
                          Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')
@@ -121,32 +123,70 @@
      }
 
      //--------------------------------------------------------------------------------------------
-     register() {
+
+     save() {
+
+         if (this.mode() == 'new') {this.create()}
+         if (this.mode() == 'new') {this.update()}
+         this.router.navigate(['admin-user-list'])
+     }
+
+     //--------------------------------------------------------------------------------------------
+     create(){
 
          this.statusForm.set(this.form.invalid)
+         if (this.form.valid) {
 
-         if (!this.form.valid) { return }
+            console.log('pasando')
 
-         this.validateEmail()
+             //this.validateEmail()
 
-         const userToCreate: User = {
-             email: this.form.value.email,
-             password: this.form.value.password,
-              name: this.form.value.name,
-             avatar: this.form.value.avatar
+             const userToCreate: User = {
+                 name: this.form.value.name,
+                 email: this.form.value.email,
+                 password: this.form.value.password,
+                 avatar: this.form.value.avatar
+             }
+
+             console.log('User to create->',userToCreate)
+
+             this.usersService.createUser(userToCreate).subscribe({
+                 next: (newUser: User) => {
+
+                 }, error: (error: any) => {
+
+                     console.log('error-> ', error.error.message)
+                     this.errorFromApi.set(error.statusText)
+
+                 }
+
+             })
+
          }
 
-         this.usersService.createUser(userToCreate).subscribe({
-             next: (newUser: User) => {
+     }
+     //--------------------------------------------------------------------------------------------
+     update(){
 
-                //this.router.navigate(['dashboard/products-store'])
+         this.statusForm.set(this.form.invalid)
+         if (!this.form.valid) { return }
+
+         const userToUpdate: UserToUpdate = {
+             email: this.form.value.email,
+             name: this.form.value.name,
+         }
+
+         this.usersService.updateUser(this.currentId(), userToUpdate).subscribe({
+             next: (updatedUser: User) => {
+                 console.log('Usuario actualizado')
              }, error: (error: any) => {
 
                  console.log('error-> ', error.error.message)
+                 this.errorFromApi.set(error.statusText)
 
             }
-
          })
+
      }
      //--------------------------------------------------------------------------------------------
      validateEmail() {
@@ -169,7 +209,6 @@
      getUser(){
          this.usersService.getUser(this.currentId()).subscribe({
              next: (currentUser) => {
-                 console.log(currentUser)
                  this.currentUser.set(currentUser)
                  this.form.get('passwordConfirm')?.patchValue(currentUser.password)
                  this.form.patchValue(currentUser);
@@ -177,7 +216,5 @@
              }
          })
      }
-
-
 
  }
