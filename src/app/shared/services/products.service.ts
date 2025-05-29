@@ -26,5 +26,11 @@
 
          return this.http.get<Product[]>(`${this.endPoint}/products`)
      }
+
      //--------------------------------------------------------------------------------------------
+     deleteProduct(id: number){
+
+         return this.http.delete<boolean>(`${this.endPoint}/products/${id}`)
+
+     }
  }

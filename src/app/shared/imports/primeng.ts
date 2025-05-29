@@ -18,6 +18,7 @@
  import { InputIconModule } from 'primeng/inputicon'
  import { ToolbarModule } from 'primeng/toolbar'
  import { FileUploadModule } from 'primeng/fileupload'
+ import { SelectModule } from 'primeng/select'
 
  @NgModule({
      declarations: [],
@@ -40,7 +41,9 @@
          IconFieldModule,
          InputIconModule,
          ToolbarModule,
-         FileUploadModule
+         FileUploadModule,
+         SelectModule
+
 
      ],
      exports: [
@@ -60,7 +63,8 @@
          TooltipModule,
          IconFieldModule,
          InputIconModule,
-         FileUploadModule
+         FileUploadModule,
+         SelectModule
 
      ]
  })

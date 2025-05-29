@@ -1,1 +1,66 @@
-<p>categories-form works!</p>
+ <div class="surface-card p-3 shadow-2 border-round w-full">
+     <form [formGroup]="form" (ngSubmit)="save()">
+         <div>
+
+             <label for="name" class="block text-900 font-medium mb-1">Nombre categoría</label>
+             <input id="name" type="text" formControlName="name" placeholder="Categoría" pInputText pSize="small" class="w-full">
+             <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
+                 Nombre es requerido
+             </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('name')?.errors?.['minlength'] && statusForm()" >
+                 Mínimo 8 caracteres
+             </small>
+
+             <label for="slug" class="block text-900 font-medium mb-1">Slug</label>
+             <input id="slug" type="text" formControlName="slug" placeholder="slug" pInputText pSize="small" class="w-full">
+             <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('slug')?.errors?.['required'] && statusForm()" >
+                 Slug es requerido
+             </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('slug')?.errors?.['minlength'] && statusForm()" >
+                 Mínimo 8 caracteres
+             </small>
+             <label for="avatar" class="block text-900 font-medium mb-1">Imagen</label>
+             @if(mode() == 'edit' || mode() == 'view') {
+                 <div class="card flex justify-center mb-2">
+                     <img
+                         src="{{this.form.value.image}}"
+                         alt="Image"
+                         width="200"
+                         crossorigin="anonymous"
+                         style="border-radius: 5%;"
+                     />
+                 </div>
+
+             }
+             @if(mode() == 'new' || mode() == 'edit'){
+                 <div class="card ">
+                    <p-fileupload
+                         name="demo[]"
+                         url=""
+                         (onSelect)="onUpload($event)"
+                         [multiple]="false" accept="image/*"
+                         auto="true"
+                         maxFileSize="1000000"
+                         mode="advanced"
+                         chooseLabel = "Seleccionar"
+                         uploadLabel = "Subir"
+                         cancelLabel = "Cancelar">
+                         <ng-template #empty>
+                             <div>Arrastre y suelte el archivo aquí para cargarlo.</div>
+                         </ng-template>
+                     </p-fileupload>
+                     <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('image')?.errors?.['required'] && statusForm()" >
+                         Imagen es requerida
+                     </small>
+                     <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('image')?.errors?.['pattern'] && statusForm()" >
+                         No es una URL válida
+                     </small>
+                 </div>
+             }
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
+                Se presentó el siguiente error... {{errorFromApi()}}
+             </small>
+             <button pButton pRipple label="Guardar" [disabled]="isEditable()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
+         </div>
+     </form>
+ </div>

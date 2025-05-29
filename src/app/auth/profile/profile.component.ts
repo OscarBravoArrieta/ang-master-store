@@ -98,7 +98,7 @@
 
      //--------------------------------------------------------------------------------------------
 
-     updateUSer(){
+     updateUser(){
 
          this.statusForm.set(this.form.invalid)
 
@@ -153,19 +153,20 @@
                  setTimeout(function(){
                      console.log("Se actualizó el perfil");
                  }, 3000)
-                 this.updateUSer()
-            },
+                 this.updateUser()
+             },
              reject: () => {
                  this.messageService.add({
                      severity: 'error',
                      summary: 'Cancelado',
                      detail: 'Actualización cancelada',
                      life: 3000,
-                 });
+                 })
              },
-         });
+         })
      }
 
+     //-------------------------------------------------------------------------------------------
 
      goHome(){
 

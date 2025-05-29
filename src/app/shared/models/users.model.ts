@@ -33,3 +33,9 @@
      refresh_token:  string
 
  }
+
+ export interface Role {
+     name: string;
+     value: string;
+ }
+

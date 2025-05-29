@@ -7,9 +7,9 @@
                      <p-fieldset>
                          <ng-template #header>
                              <div class="flex items-center gap-2 px-2">
-                                 <p-avatar
-                                     image="{{this.currentUserProfile() ? currentUserProfile()?.avatar: ''}}"
-                                     shape="circle" />
+                                 <p-avatar  shape="circle">
+                                     <img src="{{this.currentUserProfile() ? currentUserProfile()?.avatar: ''}}" crossorigin="anonymous">
+                                 </p-avatar>
                                  <span class="font-bold">{{this.currentUserProfile() ? currentUserProfile()?.name : ''}}</span>
                              </div>
                          </ng-template>

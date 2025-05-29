@@ -3,13 +3,16 @@
 
          <div class="">
 
-             <label for="name" class="block text-900 font-medium mb-1">Name</label>
-             <input id="name" type="text" formControlName="name" placeholder="Name" pInputText pSize="small" class="w-full mb-2">
-             <small class="p-error flex align-items-center message-error text-xs mb-2" [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
+             <label for="name" class="block text-900 font-medium mb-1">Nombre</label>
+             <input id="name" type="text" formControlName="name" placeholder="Name" pInputText pSize="small" class="w-full">
+             <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
                 Nombre es requerido
              </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('name')?.errors?.['minlength'] && statusForm()" >
+                Mínimo 8 caracteres
+             </small>
              <label for="email" class="block text-900 font-medium mb-1">Email</label>
-             <input id="email" type="text" formControlName="email" placeholder="Email" pInputText pSize="small" class="w-full mb-2">
+             <input id="email" type="text" formControlName="email" placeholder="Email" pInputText pSize="small" class="w-full">
 
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
                  Correo electrónico es requerido
@@ -19,50 +22,89 @@
                  No es un email válido
              </small>
 
-             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "emailExists() && !statusForm()" >
-                 Email ya ha sido usado
-             </small>
-
              @if(mode() == 'new' || mode() == 'view') {
 
-                 <label for="password" class="block text-900 font-medium mb-1">Password {{statusForm()}}</label>
+                 <label for="password" class="block text-900 font-medium mb-1">Password</label>
                  <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
 
                  <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
                      Password es requerido
                  </small>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['minlength'] && statusForm()" >
+                     Mínimo 8 caracteres
+                 </small>
 
-                 <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirm password</label>
+                 <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirma password</label>
                  <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full"  formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
 
                  <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['required'] && statusForm()" >
                      Confirmación password es requerido
                  </small>
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['mismatch'] && statusForm()" >
+
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "!this.form.get('passwordConfirm')?.errors?.['required'] && this.form.hasError('mismatch') && statusForm()" >
                      Passwords no coinciden
+                 </small>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['minlength'] && statusForm()" >
+                     Mínimo 8 caracteres
+                 </small>
+                 <label for="rol" class="block text-900 font-medium mb-1">Role</label>
+                 <p-select
+                     formControlName="role"
+                     [options]="roles"
+                     [checkmark]="true"
+                     optionLabel="name"
+                     optionValue="value"
+                     [showClear]="true"
+                     placeholder="Elija rol"
+                     size="small"
+                     class="w-full md:w-56"
+                 />
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('role')?.errors?.['required'] && statusForm()" >
+                     Rol es requerido
                  </small>
              }
 
              @if(mode() == 'new') {
-                 <label for="avatar" class="block text-900 font-medium mb-1">Avatar</label>
-                 <input id="avatar" type="text" formControlName="avatar" placeholder="Avatar" pInputText pSize="small" class="w-full mb-2">
 
-                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('avatar')?.errors?.['required'] && statusForm()" >
-                    Avatar es requerido
-                </small>
+                <label for="avatar" class="block text-900 font-medium mb-1">Avatar</label>
+                <div class="card ">
+
+                    <p-fileupload
+                         name="demo[]"
+                         url=""
+                         (onSelect)="onUpload($event)"
+                         [multiple]="false" accept="image/*"
+                         auto="true"
+                         maxFileSize="1000000"
+                         mode="advanced"
+                         chooseLabel = "Seleccionar"
+                         uploadLabel = "Subir"
+                         cancelLabel = "Cancelar">
+                         <ng-template #empty>
+                             <div>Arrastre y suelte el archivo aquí para cargarlo.</div>
+                         </ng-template>
+                    </p-fileupload>
+                 </div>
+
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('avatar')?.errors?.['required'] && statusForm()" >
+                     Avatar es requerido
+                 </small>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('avatar')?.errors?.['pattern'] && statusForm()" >
+                     No es una URL válida
+                 </small>
              }
-             @if(mode() == 'new' || mode() == 'view') {
-                <div class="flex justify-content-center flex-wrap">
-                    <p-avatar size="xlarge"
-                        image="{{currentUser()?.avatar}}"
-                        shape="circle"
-                    />
+             @if(mode() == 'view') {
+                 <div class="flex justify-content-center flex-wrap">
+                     <p-avatar  shape="circle" size="xlarge">
+                         <img src="{{currentUser()?.avatar }}" crossorigin="anonymous">
+                     </p-avatar>
                 </div>
              }
+
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
-                {{errorFromApi()}}... Error en nombre usuario y/o contraseña
+                Se presentó el siguiente error... {{errorFromApi()}}
              </small>
-             <button pButton pRipple label="Save" [disabled]="isEditable()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
+             <button pButton pRipple label="Guardar" [disabled]="isEditable()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
          </div>
    </form>
 </div>
