@@ -19,6 +19,12 @@
  import { ToolbarModule } from 'primeng/toolbar'
  import { FileUploadModule } from 'primeng/fileupload'
  import { SelectModule } from 'primeng/select'
+ import { ConfirmPopupModule } from 'primeng/confirmpopup'
+ import { TextareaModule } from 'primeng/textarea'
+ import { InputNumberModule } from 'primeng/inputnumber'
+ import { TagModule } from 'primeng/tag'
+ import { GalleriaModule } from 'primeng/galleria'
+
 
  @NgModule({
      declarations: [],
@@ -42,7 +48,12 @@
          InputIconModule,
          ToolbarModule,
          FileUploadModule,
-         SelectModule
+         SelectModule,
+         ConfirmPopupModule,
+         TextareaModule,
+         InputNumberModule,
+         TagModule,
+         GalleriaModule,
 
 
      ],
@@ -64,7 +75,13 @@
          IconFieldModule,
          InputIconModule,
          FileUploadModule,
-         SelectModule
+         SelectModule,
+         ConfirmPopupModule,
+         TextareaModule,
+         InputNumberModule,
+         TagModule,
+         GalleriaModule,
+
 
      ]
  })

@@ -46,7 +46,7 @@
 
              {field: 'id', header: 'Id', sortableColumnDisabled: false, contentType: 'string' },
              {field: 'name', header: 'Name', sortableColumnDisabled: false, contentType: 'string' },
-             {field: 'image', header: 'Image', sortableColumnDisabled: true, contentType: 'image' },
+             {field: 'image', header: 'Image', sortableColumnDisabled: true, contentType: 'image' }
 
          ])
      }

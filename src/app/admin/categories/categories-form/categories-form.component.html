@@ -60,7 +60,7 @@
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
                 Se presentó el siguiente error... {{errorFromApi()}}
              </small>
-             <button pButton pRipple label="Guardar" [disabled]="isEditable()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
+             <button pButton pRipple label="Guardar" [disabled]="isDisabled()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
          </div>
      </form>
  </div>

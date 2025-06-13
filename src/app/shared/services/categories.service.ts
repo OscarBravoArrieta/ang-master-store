@@ -38,6 +38,7 @@ export class CategoriesService {
      }
 
      //--------------------------------------------------------------------------------------------
+
      updateCategory(id: number | undefined, data: Category) {
 
          return this.http.put<Category>(`${this.endPoint}/categories/${id}`, data)
@@ -45,12 +46,14 @@ export class CategoriesService {
      }
 
      //--------------------------------------------------------------------------------------------
+
      deleteCategory(id: number) {
 
          return this.http.delete<boolean>(`${this.endPoint}/categories/${id}`)
      }
 
      //--------------------------------------------------------------------------------------------
+
      async uploadAvatar(file: any){
 
          const formData = new FormData();
@@ -64,4 +67,4 @@ export class CategoriesService {
 
      }
 
-}
+ }

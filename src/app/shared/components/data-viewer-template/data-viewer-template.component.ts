@@ -1,4 +1,4 @@
- import { Component, inject, input } from '@angular/core'
+ import { Component, inject, input, signal } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
  import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
@@ -8,6 +8,7 @@
  import { ConfirmationService, MessageService  } from 'primeng/api'
  import { CategoriesService } from '@services/categories.service'
  import { ProductsService } from '@services/products.service'
+ import { ExportService } from '@services/export.service'
 
  @Component({
      selector: 'app-data-viewer-template',
@@ -30,14 +31,23 @@
      readonly messageService = inject(MessageService)
      private categoriesService = inject(CategoriesService)
      private productsService = inject(ProductsService)
+     private exportService = inject(ExportService)
      dataSet = input<any[]>([])
+     isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
      dataSource = input<string>('')
      cols = input<any[]>([])
      ref: DynamicDialogRef | undefined
 
      //--------------------------------------------------------------------------------------------
 
+     ngOnChanges(){
+         this.isDisabled.set(this.dataSet().length === 0 ?  true: false)
+     }
+
+     //--------------------------------------------------------------------------------------------
+
      callDialog(id = null, mode: string) {
+
 
          switch(this.dataSource()) {
              case "users": {
@@ -67,7 +77,8 @@
                          id: id,
                          mode
                      },
-                     width: '30vw',
+                     width: '40vw',
+                     height: '100vw',
                      closeOnEscape: false,
                      contentStyle: { overflow: 'auto' },
                      closable: true,
@@ -107,8 +118,8 @@
      confirm(dataSource: string, id: number){
 
          this.confirmationService.confirm({
-             message: "Se eliminará el registro" + "\n¿Desea continuar?" ,
-             header: 'Información',
+             message: `Se eliminará el registro. ¿Desea continuar?` ,
+             header: 'Confirmación',
              closable: true,
              closeOnEscape: false,
              icon: 'pi pi-question-circle',
@@ -118,7 +129,7 @@
                  outlined: true,
              },
              acceptButtonProps: {
-                 label: 'Si. Elimínalo por favor',
+                 label: 'Si, elimínalo por favor',
              },
              accept: () => {
                  setTimeout(function(){
@@ -138,6 +149,30 @@
          })
      }
 
+     //--------------------------------------------------------------------------------------------
+
+     confirmPopUp(event: Event){
+       this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure you want to proceed?',
+            icon: 'pi pi-exclamation-triangle',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Save'
+            },
+            accept: () => {
+                this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+            }
+        })
+
+     }
      //--------------------------------------------------------------------------------------------
      deleteRecord(dataSource: string, id: number){
 
@@ -185,6 +220,13 @@
              })
          }
 
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     export(){
+         let fileDate = new Date().toISOString()
+         this.exportService.exportJsonToExcel(this.dataSet(), this.dataSource() + '-' + fileDate)
      }
 
      //--------------------------------------------------------------------------------------------

@@ -24,12 +24,20 @@
 
      ngOnInit(){
 
-         this.getUsers()
+         this.getProducts()
      }
 
      //--------------------------------------------------------------------------------------------
 
-     getUsers() {
+     ngOnChanges(){
+
+         this.getProducts()
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     getProducts() {
 
          this.productsService.getProducts().subscribe({
              next: (dataSet) => {

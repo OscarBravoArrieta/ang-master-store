@@ -1,1 +1,96 @@
-<p>products-form works!</p>
+ <div class="surface-card p-3 shadow-2 border-round w-full">
+     <form [formGroup]="form" (ngSubmit)="save()">
+         @if(mode() != 'new'){
+             <p-galleria
+                 [value]="productImages()"
+                 [showItemNavigators]="true"
+                 [showThumbnails]="false"
+                 [showIndicators]="true"
+                 [showItemNavigatorsOnHover]="true"
+                 [circular]="true"
+                 [responsiveOptions]="responsiveOptions"
+                 [containerStyle]="{ 'max-width': '640px' }">
+                 <ng-template #item let-item>
+                     <img [src]="item.itemImageSrc" style="width: 30%; display: block; border-radius: 5px;" />
+                 </ng-template>
+                 <ng-template #thumbnail let-item>
+                     <img [src]="item.thumbnailImageSrc" style="display: block;" />
+                 </ng-template>
+             </p-galleria>
+         }
+
+         <label for="title" class="block text-900 font-medium mb-1">Título</label>
+         <input id="title" type="text" formControlName="title" placeholder="Título" pInputText pSize="small" class="w-full">
+         <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('title')?.errors?.['required'] && statusForm()" >
+             Título es requerido
+         </small>
+         <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('title')?.errors?.['minlength'] && statusForm()" >
+             Mínimo 8 caracteres
+         </small>
+
+         @if(mode() === 'new' || mode() === 'view'){
+
+            <label for="description" class="block text-900 font-medium mb-1">Descripción</label>
+            <textarea id = "description" rows="8" cols="30" pTextarea formControlName="description" class="w-full"></textarea>
+            <label for="rol" class="block text-900 font-medium mb-1">Categoría</label>
+            <p-select
+                formControlName="categoryId"
+                [options]="categories()"
+                [checkmark]="true"
+                optionLabel="name"
+                optionValue="value"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                placeholder="Elija categoría"
+                size="small"
+                class="w-full md:w-56"
+            />
+             <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('categoryId')?.errors?.['required'] && statusForm()" >
+                 Caegoría es requerida
+             </small>
+         }
+         <label for="rol" class="block text-900 font-medium mb-1">Precio</label>
+         <p-inputnumber
+             formControlName="price"
+             inputId="integeronly"
+             mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+             price="value"
+             class="w-full"
+         />
+         <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('price')?.errors?.['required'] && statusForm()" >
+             Precio es requerido
+         </small>
+         <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('price')?.errors?.['min'] && statusForm()" >
+             Precio no valido
+         </small>
+         @if(mode() == 'new'){
+            <div class="card ">
+                <p-fileupload
+                    name="demo[]"
+                    url=""
+                    (onSelect)="onUpload($event)"
+                    (onRemove)="fileRemoved($event)"
+                    [multiple]="true"
+                    accept="image/*"
+                    auto="true"
+                    maxFileSize="1000000"
+                    mode="advanced"
+                    chooseLabel = "Seleccionar"
+                    uploadLabel = "Subir"
+                    cancelLabel = "Cancelar">
+                    <ng-template #empty>
+                        <div>Arrastre y suelte el archivo aquí para cargarlo.</div>
+                    </ng-template>
+                </p-fileupload>
+                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('images')?.errors?.['required'] && statusForm()" >
+                     Se requiere al menos una imagen
+                </small>
+            </div>
+         }
+         <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
+             Se presentó el siguiente error... {{errorFromApi()}}
+         </small>
+         <button pButton pRipple label="Guardar" [disabled]="isDisabled()" icon="pi pi-save" type = 'submit' class="w-full mt-3"></button>
+     </form>
+ </div>

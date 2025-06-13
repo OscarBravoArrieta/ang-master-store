@@ -1,16 +1,24 @@
  import { Category } from "@model/category.model"
 
  export interface Product {
-     id: number,
+
+     id?: number,
      title: string
      price: number
      description: string
-     categoryId: number
-     category: object
+     categoryId?: number
+     category?: Category
      images: string[]
-     slug: string
-     creationAt: string
-     updatedAt: string
+     slug?: string
+     creationAt?: string
+     updatedAt?: string
+
+ }
+
+ export interface ProductToUpdate {
+
+     title: string
+     price: number
 
  }
 

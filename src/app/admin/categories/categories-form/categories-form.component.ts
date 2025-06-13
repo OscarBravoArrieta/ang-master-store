@@ -30,7 +30,7 @@
      errorFromApi = signal<string>('')
      currentCategory = signal<Category | undefined>(undefined)
      currentId = signal<number>(0)
-     isEditable = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+     isDisabled = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
      mode = signal<string>('')
      image: any
 
@@ -49,7 +49,7 @@
          if (this.dynamicDialogConfig.data) {
 
              this.currentId.set(this.dynamicDialogConfig.data.id)
-             this.isEditable.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+             this.isDisabled.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
              this.mode.set(this.dynamicDialogConfig.data.mode)
              this.getCategory()
 
@@ -61,14 +61,14 @@
      private buildForm() {
 
          this.form = this.formBuilder.group ({
-             name: [{value: null, disabled: this.isEditable()},
+             name: [{value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.required, Validators.minLength(6)])
              ],
              image: [
-                 {value: null, disabled: this.isEditable()},
+                 {value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')])
              ],
-             slug: [{value: null, disabled: this.isEditable()},
+             slug: [{value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.required, Validators.minLength(6)])
              ],
          })
@@ -81,12 +81,12 @@
          if (this.mode() == 'edit') {this.update()}
          this.router.navigate(['admin-categories-list'])
 
-
      }
 
      //--------------------------------------------------------------------------------------------
 
      async create(){
+
          this.statusForm.set(this.form.invalid)
          if (this.form.valid) {
              const res = await this.categoriesService.uploadAvatar(this.image)
@@ -166,6 +166,7 @@
      }
 
      //--------------------------------------------------------------------------------------------
+
      ngOnDestroy() {
 
          if (this.ref) {

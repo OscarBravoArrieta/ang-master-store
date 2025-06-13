@@ -3,10 +3,11 @@
  import { PrimeNgModule } from '@import/primeng'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { UsersService } from '@services/users.service'
- import { User, UserToUpdate, Role} from '@model/users.model'
+ import { User, UserToUpdate } from '@model/users.model'
  import { Router, RouterModule } from '@angular/router'
  import { CustomValidators } from '@utils/custom-validation'
  import { Select } from 'primeng/select'
+ import { SelectStringInterface } from '@model/common-models'
 
  @Component({
      selector: 'app-user-form',
@@ -33,9 +34,9 @@
      emailExists = signal<boolean>(false)
      currentUser = signal<User | undefined>(undefined)
      currentId = signal<number>(0)
-     isEditable = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+     isDisabled = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
      mode = signal<string>('')
-     roles: Role[] = []
+     roles: SelectStringInterface[] = []
      image: any
 
      //--------------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@
          if (this.dynamicDialogConfig.data) {
 
              this.currentId.set(this.dynamicDialogConfig.data.id)
-             this.isEditable.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
+             this.isDisabled.set(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
              this.mode.set(this.dynamicDialogConfig.data.mode)
              this.getUser()
          }
@@ -66,28 +67,28 @@
      private buildForm() {
 
          this.form = this.formBuilder.group ({
-             name: [{value: null, disabled: this.isEditable()},
+             name: [{value: null, disabled: this.isDisabled()},
                      Validators.compose([Validators.required, Validators.minLength(8)])
              ],
-             email: [{value: null, disabled: this.isEditable()}, Validators.compose(
+             email: [{value: null, disabled: this.isDisabled()}, Validators.compose(
                      [Validators.email, Validators.required]
                  )
              ],
 
-             password: [ {value: null, disabled: this.isEditable()},
+             password: [ {value: null, disabled: this.isDisabled()},
                  Validators.compose( [Validators.minLength(8), Validators.required,
                          //Validators.pattern('(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}'),
                      ]
                  )
              ],
-            passwordConfirm: [{value: null, disabled: this.isEditable()},
+            passwordConfirm: [{value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.minLength(8), Validators.required])
              ],
-             role: [{value: null, disabled: this.isEditable()},
+             role: [{value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.required])
              ],
              avatar: [
-                {value: null, disabled: this.isEditable()},
+                {value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')])
              ],
          },{

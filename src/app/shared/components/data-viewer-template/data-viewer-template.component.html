@@ -1,5 +1,4 @@
 <div>
-
      <p-toast />
      <p-confirmdialog />
 
@@ -17,10 +16,9 @@
          scrollHeight = "350px"
          [tableStyle] = "{'min-width': '75rem'}"
          [autoLayout] = "true">
-
          <ng-template pTemplate="caption">
              <div class="flex align-items-center justify-content-between">
-                 <span class="text-xl font-bold">{{dataSource() | titlecase }}</span>
+                 <span class="text-2xl font-bold text-red-500" >{{dataSource() | titlecase }}</span>
                  <div class = "flex align-items-end">
 
                      <p-iconfield>
@@ -30,8 +28,19 @@
                              type="text"
                              (input)="dt.filterGlobal($event.target.value, 'contains')"
                              placeholder ="Buscar"
-                             size="small"/>
+                             size="small" [disabled]="isDisabled()"
+                         />
+
                      </p-iconfield>
+
+                     <p-button
+                         label="Exportar"
+                         (click) = "export()"
+                         icon="pi pi-file-excel"
+                         class="ml-2"
+                         type="button"
+                         [disabled]="isDisabled()"
+                     />
                      <p-button
                          label="Nuevo"
                          (click) = "callDialog(null, 'new')"
@@ -54,7 +63,10 @@
 
                      </th>
                  }
-                 <th style="text-align:center;">Acciones</th>
+                 @if(dataSet().length > 0) {
+                     <th style="text-align:center;">Acciones</th>
+                 }
+
              </tr>
 
          </ng-template>
@@ -84,7 +96,7 @@
                                  <p-image src="{{rowData[col.field][0]}}" width="30" [preview]="true"/>
                              }
                              @case('image'){
-                                 <p-image src="{{rowData[col.field]}}" width="30" [preview]="true"/>
+                                 <img src="{{rowData[col.field]}}" crossorigin="anonymous" width="30"/>
                              }
                          }
                      </td>
@@ -121,6 +133,18 @@
 
                  </td>
              </tr>
+         </ng-template>
+         <ng-template pTemplate="emptymessage" let-c>
+                     <tr>
+            <td [attr.colspan]="c.length">
+                 <div class="flex align-items-center justify-content-center">
+
+                     <i class="pi pi-search mr-2" style="font-size: 2rem"></i>
+                     <p>No existen registros</p>
+                 </div>
+
+            </td>
+        </tr>
          </ng-template>
          <ng-template pTemplate="summary">
              <span class = "font-sub-title">Total registros en esta vista: {{dataSet().length | number }} </span>
