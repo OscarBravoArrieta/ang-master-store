@@ -35,6 +35,9 @@
      form!: FormGroup
      statusForm = signal(false)
      errorFromApi = signal<string>('')
+
+     //--------------------------------------------------------------------------------------------
+
      constructor() {
 
          this.buildForm()
@@ -114,7 +117,7 @@
                          severity: 'info',
                          summary: 'Confirmed',
                          detail: 'Se actualizó el perfil'
-                     });
+                     })
                      this.currentUserProfile.set(response)
                      this.goHome()
                      this.authService.logOut()
@@ -125,7 +128,7 @@
                          summary: 'Rechazada',
                          detail: 'Actualización rechazada',
                          life: 3000,
-                     });
+                     })
 
                  }
              })

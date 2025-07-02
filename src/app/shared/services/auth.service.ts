@@ -76,7 +76,7 @@
      logOut() {
 
          localStorage.clear()
-         this.router.navigate([''])
+         this.router.navigate(['auth-login'])
          .then(() => {
              window.location.reload()
          })

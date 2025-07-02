@@ -13,11 +13,11 @@
 
      constructor() { }
      //--------------------------------------------------------------------------------------------
-     getProductsByCategory(category_id?: string) {
+     getProductsByCategory(idCategory?: string) {
 
          const url = new URL(`https://api.escuelajs.co/api/v1/products`)
-         if(category_id) {
-             url.searchParams.set('categoryId', category_id)
+         if(idCategory) {
+             url.searchParams.set('categoryId', idCategory)
          }
 
          return this.http.get<Product[]>(url.toString())
@@ -73,4 +73,7 @@
          return response.json()
 
      }
+
+     //--------------------------------------------------------------------------------------------
+
  }

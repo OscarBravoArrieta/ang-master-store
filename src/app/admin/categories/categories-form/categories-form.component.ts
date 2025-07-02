@@ -1,11 +1,11 @@
  import { Component, inject, signal } from '@angular/core'
  import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
+ import { MessageService  } from 'primeng/api'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { CategoriesService } from '@services/categories.service'
  import { Category } from '@model/category.model'
  import { Router, RouterModule } from '@angular/router'
-
 
  @Component({
      selector: 'app-categories-form',
@@ -15,6 +15,7 @@
          RouterModule,
          ReactiveFormsModule
      ],
+     providers: [MessageService],
      templateUrl: './categories-form.component.html',
      styleUrl: './categories-form.component.scss'
  })
@@ -23,6 +24,7 @@
      private ref = inject (DynamicDialogRef)
      private dynamicDialogConfig = inject (DynamicDialogConfig)
      private categoriesService = inject(CategoriesService)
+     readonly messageService = inject(MessageService)
      private router = inject(Router)
 
      form!: FormGroup
@@ -99,6 +101,11 @@
 
              this.categoriesService.createCategory(categoryToCreate).subscribe({
                  next: (newCategory: Category) => {
+                     this.messageService.add({
+                         severity: 'info',
+                         summary: 'Confirmed',
+                         detail: 'Registro guardado'
+                     })
                      this.ref.close(this.formBuilder)
                  }, error: (error: any) => {
                      console.log('error-> ', error.error.message)
@@ -126,7 +133,13 @@
          this.categoriesService.updateCategory(this.currentId(), categoryToUpdate).subscribe({
               next: (updatedCategory: Category) => {
 
-                  this.ref.close(this.formBuilder)
+                 this.messageService.add({
+                     severity: 'info',
+                     summary: 'Confirmed',
+                     detail: 'Registro guardado'
+                 })
+
+                 this.ref.close(this.formBuilder)
 
               }, error: (error: any) => {
 
@@ -163,6 +176,19 @@
              }
              reader.readAsDataURL(this.image);
          }
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     fileRemoved(event: any) {
+
+         if(!event.files){
+
+             const image = ''
+             this.form.patchValue({image})
+
+         }
+
      }
 
      //--------------------------------------------------------------------------------------------

@@ -24,7 +24,10 @@
  import { InputNumberModule } from 'primeng/inputnumber'
  import { TagModule } from 'primeng/tag'
  import { GalleriaModule } from 'primeng/galleria'
-
+ import { ScrollPanelModule } from 'primeng/scrollpanel'
+ import { ListboxModule } from 'primeng/listbox'
+ import { BadgeModule } from 'primeng/badge';
+ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
  @NgModule({
      declarations: [],
@@ -54,7 +57,10 @@
          InputNumberModule,
          TagModule,
          GalleriaModule,
-
+         ScrollPanelModule,
+         ListboxModule,
+         BadgeModule,
+         OverlayBadgeModule
 
      ],
      exports: [
@@ -81,8 +87,10 @@
          InputNumberModule,
          TagModule,
          GalleriaModule,
-
-
+         ScrollPanelModule,
+         ListboxModule,
+         BadgeModule,
+         OverlayBadgeModule
      ]
  })
  export class PrimeNgModule {}

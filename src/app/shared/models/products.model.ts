@@ -10,6 +10,7 @@
      category?: Category
      images: string[]
      slug?: string
+     quantity?: number,
      creationAt?: string
      updatedAt?: string
 

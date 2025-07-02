@@ -1,7 +1,9 @@
- <div class="surface-card p-3 shadow-2 border-round w-full">
-     <form [formGroup]="form" (ngSubmit)="save()">
-         <div>
+ <div>
 
+     <form [formGroup]="form" (ngSubmit)="save()">
+
+         <div class="flex flex-column justify-content-center flex-wrap">
+             <p-toast/>
              <label for="name" class="block text-900 font-medium mb-1">Nombre categoría</label>
              <input id="name" type="text" formControlName="name" placeholder="Categoría" pInputText pSize="small" class="w-full">
              <small class="p-error flex align-items-center message-error text-xs    " [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
@@ -38,6 +40,7 @@
                          name="demo[]"
                          url=""
                          (onSelect)="onUpload($event)"
+                         (onRemove)="fileRemoved($event)"
                          [multiple]="false" accept="image/*"
                          auto="true"
                          maxFileSize="1000000"

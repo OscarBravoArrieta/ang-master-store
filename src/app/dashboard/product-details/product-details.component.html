@@ -1,0 +1,34 @@
+ <p-card
+     [style]="{ width: '18rem', overflow: 'hidden' }"
+     class="mr-2 ml-2">
+     <ng-template #header>
+        <p-image
+             src = "{{product()?.images}}"
+             alt="Card"
+             [preview]="true"
+             height = "200"
+             width = "250"
+             class="h-full w-full object-cover object-center group-hover:opacity-75">
+        </p-image>
+
+     </ng-template>
+     <ng-template #title> {{product()?.title}} </ng-template>
+     <ng-template #subtitle> {{product()?.price | currency}} </ng-template>
+     <p class = "text-sm text-justify m-0">
+         {{product()?.description}}
+     </p>
+
+     <ng-template #footer>
+         <div class="flex gap-4 mt-1">
+             <p-button
+                 (onClick)="addToCart()"
+                 label="Add to cart"
+                 icon="pi pi-shopping-cart"
+                 class="w-full"
+                 styleClass="w-full"
+             />
+         </div>
+     </ng-template>
+ </p-card>
+
+

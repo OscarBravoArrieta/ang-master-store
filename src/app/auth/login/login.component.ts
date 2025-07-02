@@ -2,7 +2,6 @@
  import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
  import { AuthService } from '@services/auth.service'
- import { DynamicDialogRef } from 'primeng/dynamicdialog'
  import { Router, RouterModule } from '@angular/router'
  import { UserToLog, User  } from '@model/users.model'
 
@@ -18,7 +17,7 @@
      templateUrl: './login.component.html',
      styleUrl: './login.component.scss'
  })
- export class LoginComponent {
+ export default class LoginComponent {
 
      private formBuilder = inject (FormBuilder)
      private authService = inject(AuthService)
@@ -26,7 +25,6 @@
 
      form!: FormGroup
      statusForm = signal(false)
-     private ref = inject (DynamicDialogRef)
      errorFromApi = signal<string>('')
 
 
@@ -81,14 +79,18 @@
                      if (currentUserProfile.role === 'customer') {
 
                          this.router.navigate(['dashboard'])
+                             .then(() => {
+                             window.location.reload()
+                         })
 
                      } else {
 
                          this.router.navigate([''])
-
+                         .then(() => {
+                             window.location.reload()
+                         })
                      }
 
-                     this.ref.close(this.formBuilder)
 
                  }, error: (error: any) => {
                      this.errorFromApi.set(error.statusText)
@@ -99,12 +101,5 @@
      }
 
      // -------------------------------------------------------------------------------------------
-
-     ngOnDestroy() {
-
-        if (this.ref) {
-            this.ref.close()
-        }
-     }
 
  }

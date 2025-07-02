@@ -1,5 +1,5 @@
  import { Component, inject, signal } from '@angular/core'
- import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms'
+ import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule, AbstractControl, ValidationErrors} from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { UsersService } from '@services/users.service'
@@ -8,6 +8,7 @@
  import { CustomValidators } from '@utils/custom-validation'
  import { Select } from 'primeng/select'
  import { SelectStringInterface } from '@model/common-models'
+ import { catchError, map, Observable, of } from 'rxjs'
 
  @Component({
      selector: 'app-user-form',
@@ -31,7 +32,6 @@
      form!: FormGroup
      statusForm = signal(false)
      errorFromApi = signal<string>('')
-     emailExists = signal<boolean>(false)
      currentUser = signal<User | undefined>(undefined)
      currentId = signal<number>(0)
      isDisabled = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
@@ -61,6 +61,7 @@
              this.mode.set(this.dynamicDialogConfig.data.mode)
              this.getUser()
          }
+
      }
 
      //--------------------------------------------------------------------------------------------
@@ -70,13 +71,14 @@
              name: [{value: null, disabled: this.isDisabled()},
                      Validators.compose([Validators.required, Validators.minLength(8)])
              ],
-             email: [{value: null, disabled: this.isDisabled()}, Validators.compose(
-                     [Validators.email, Validators.required]
-                 )
-             ],
+             email: [{value: null, disabled: this.isDisabled()}, {
+                 validators: [Validators.required, Validators.email],
+                 asyncValidators: [this.emailValidator.bind(this)],
+                 updateOn: 'blur'
+             }],
 
              password: [ {value: null, disabled: this.isDisabled()},
-                 Validators.compose( [Validators.minLength(8), Validators.required,
+                 Validators.compose( [ Validators.minLength(8), Validators.required,
                          //Validators.pattern('(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}'),
                      ]
                  )
@@ -97,6 +99,35 @@
 
      }
 
+     //--------------------------------------------------------------------------------------------
+
+     get email() {
+         return this.form.controls['email'];
+     }
+
+
+     //--------------------------------------------------------------------------------------------
+	 userExistsValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+
+         return this.usersService.getUserByEmail(control.value, this.currentId()).pipe(
+             map(isExists => (isExists ? { userExists: true } : null)),
+             catchError(() => of(null)) // Error handling in case of problems with the service
+         )
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     emailValidator(control: AbstractControl): Observable<ValidationErrors | null>{
+
+         return this.usersService.getUsers().pipe(
+             map(users => {
+                 const emailExists = users.some(user => user.email === control.value && user.id !== this.currentId())
+                 console.log(emailExists)
+                 return emailExists ? { isExists: true } : null;
+             })
+         )
+
+     }
 
      //--------------------------------------------------------------------------------------------
 
@@ -185,10 +216,33 @@
          this.image = event.files[0]
          this.form.value.avatar = this.image.name
          this.form.get('avatar')?.setValue(`https://api.escuelajs.co/api/v1/files/${this.image.name}`)
+         if (this.image) {
+             const reader = new FileReader()
+             reader.onload = (e: any) => {
+                 this.form.value.image = e.target.result
+             }
+             reader.readAsDataURL(this.image);
+         }
 
      }
 
      //--------------------------------------------------------------------------------------------
+
+     fileRemoved(event: any) {
+
+         console.log(event.files)
+
+         if(!event.files){
+
+             const avatar = ''
+             this.form.patchValue({avatar})
+
+         }
+
+     }
+
+     //--------------------------------------------------------------------------------------------
+
 
      async uploadImage(file: any) {
          console.log(file)

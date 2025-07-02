@@ -1,11 +1,10 @@
- import { Component, inject, signal} from '@angular/core'
+ import { Component, inject, signal, SimpleChanges} from '@angular/core'
  import { RouterLink } from '@angular/router'
  import { PrimeNgModule } from '@import/primeng'
  import { MenuItem } from 'primeng/api'
- import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
- import { LoginComponent } from '@auth/login/login.component';
  import { User } from '@model/users.model'
  import { AuthService } from '@services/auth.service'
+ import { CartService } from '@services/cart.service'
  import { LocalStorageService } from '@services/local-storage.service'
  import { Router, RouterModule } from '@angular/router'
 
@@ -16,18 +15,15 @@
          RouterLink,
          RouterModule
      ],
-     providers: [
-         DialogService
-     ],
      templateUrl: './header.component.html',
      styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-     private dialogService = inject(DialogService)
      readonly authService = inject(AuthService)
+     private cartService = inject(CartService)
      readonly localStorageService = inject(LocalStorageService)
      readonly router = inject(Router)
-     ref: DynamicDialogRef | undefined
+     cart = this.cartService.cart
      items: MenuItem[] | undefined
      currentUserProfile = signal<User | null>(null)
 
@@ -63,9 +59,10 @@ export class HeaderComponent {
                  label: 'Users options',
                  items: [
                      {
-                         label: 'Actualizar perfil ',
+                         label: "Actualizar perfil",
                          icon: 'pi pi-user-edit',
                          command: (event) => {
+
                              this.router.navigate(['auth-profile'])
                          }
                      },
@@ -74,6 +71,7 @@ export class HeaderComponent {
                          icon: 'pi pi-sign-out',
                          command: (event) => {
                              this.authService.logOut()
+
                          }
                      }
                  ]
@@ -85,34 +83,10 @@ export class HeaderComponent {
 
      callLogin() {
 
-         this.ref = this.dialogService.open(LoginComponent, {
-             header: 'Iniciar sesión',
-             width: '30vw',
-             closeOnEscape: false,
-             contentStyle: { overflow: 'auto' },
-             closable: true,
-             draggable: true,
-             modal:true,
-             breakpoints: {
-                 '960px': '75vw',
-                 '640px': '90vw'
-             },
-         })
-
-         this.router.navigate([''])
-     }
-
-     //--------------------------------------------------------------------------------------------
-
-     ngOnDestroy() {
-
-         if (this.ref) {
-             this.ref.close();
-         }
+          this.router.navigate(['auth-login'])
 
      }
 
      //--------------------------------------------------------------------------------------------
 
-
-}
+ }

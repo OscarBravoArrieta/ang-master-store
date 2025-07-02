@@ -2,6 +2,7 @@
  import { Injectable, inject} from '@angular/core'
  import { User, UserToUpdate } from '@model/users.model'
  import { environment } from "@environments/environment.development"
+import { map } from 'rxjs'
 
 
  @Injectable({
@@ -35,6 +36,19 @@
          return this.http.get<User>(`${this.endPoint}/users/${id}`)
 
      }
+
+     //--------------------------------------------------------------------------------------------
+
+     getUserByEmail(email: string, id: number) {
+
+         console.log(email, " - ", id)
+
+         return this.http.get<User[]>(`${this.endPoint}/users`).pipe(
+             map(users => users.some(user => user.email === email && user.id !== id) )
+         )
+
+     }
+
 
      //--------------------------------------------------------------------------------------------
 

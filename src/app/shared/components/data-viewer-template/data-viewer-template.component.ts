@@ -41,13 +41,14 @@
      //--------------------------------------------------------------------------------------------
 
      ngOnChanges(){
+
          this.isDisabled.set(this.dataSet().length === 0 ?  true: false)
+
      }
 
      //--------------------------------------------------------------------------------------------
 
      callDialog(id = null, mode: string) {
-
 
          switch(this.dataSource()) {
              case "users": {

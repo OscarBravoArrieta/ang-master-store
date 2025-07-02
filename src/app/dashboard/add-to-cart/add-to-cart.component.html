@@ -1,0 +1,64 @@
+ <div>
+     <form  [formGroup] ="form" (ngSubmit)="addToCartHandler()">
+         <div class="flex justify-content-center flex-wrap">
+             <div class="flex align-items-center justify-content-center w-5 h-6 border-round mt-0 ">
+                 <p-galleria
+                     [value]="productImages()"
+                     [showItemNavigators]="true"
+                     [showThumbnails]="false"
+                     [showIndicators]="true"
+                     [showItemNavigatorsOnHover]="true"
+                     [circular]="true"
+                     [responsiveOptions]="responsiveOptions"
+                     [containerStyle]="{ 'max-width': '640px' }">
+                     <ng-template #item let-item>
+                         <img [src]="item.itemImageSrc" style="width: 100%; height: 100%; display: block; border-radius: 5px;" />
+                     </ng-template>
+                     <ng-template #thumbnail let-item>
+                         <img [src]="item.thumbnailImageSrc" style="display: block;" />
+                     </ng-template>
+                 </p-galleria>
+             </div>
+             <div class="flex flex-column align-items-left justify-content-center w-6 h-6 border-round mt-0 ml-3">
+                 <span class="text-2xl text-left">{{form.value.title}}</span>
+                 @if(this.form.value.category){
+                     <p class="text-xl text-left">Categoría: {{form.value.category.name}}</p>
+                 }
+                 <p-scrollPanel [style]="{ width: '100%', height: '130px' }">
+                     <p class=" text-sm text-justify m-0">
+                         {{this.form.value.description}}
+                     </p>
+                 </p-scrollPanel>
+                 <span class = "text-3xl text-left text-pink-400 mt-0">Precio: {{form.value.price | currency }}</span>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('price')?.errors?.['required'] && statusForm()">
+                     Precio es requerido
+                 </small>
+                 <label class="mt-0" for="minmax-buttons">Cantidad</label>
+                     <p-inputNumber
+                         formControlName = "quantity"
+                         mode="decimal"
+                         [showButtons]="true"
+                         inputId="minmax-buttons"
+                         [min]="1"
+                         [max]="1000"
+                     >
+                 </p-inputNumber>
+                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('quantity')?.errors?.['required'] && statusForm()">
+                     Cantida es requerida
+                 </small>
+
+             </div>
+         </div>
+         <div class="flex justify-content-center flex-wrap mt-5">
+             <div class="flex align-items-center justify-content-center w-3 border-round m-5">
+                 <p-button
+                     type = 'submit'
+                     label="Add to cart"
+                     icon="pi pi-shopping-cart"
+                     class="w-full"
+                     styleClass="w-full"
+                 />
+             </div>
+         </div>
+     </form>
+ </div>

@@ -1,7 +1,8 @@
-<div class="surface-card p-3 shadow-2 border-round w-full">
+
+<div>
     <form [formGroup]="form" (ngSubmit)="save()" >
 
-         <div class="">
+         <div class="flex flex-column justify-content-center flex-wrap">
 
              <label for="name" class="block text-900 font-medium mb-1">Nombre</label>
              <input id="name" type="text" formControlName="name" placeholder="Name" pInputText pSize="small" class="w-full">
@@ -15,11 +16,13 @@
              <input id="email" type="text" formControlName="email" placeholder="Email" pInputText pSize="small" class="w-full">
 
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
-                 Correo electrónico es requerido
+                 Email es requerido
              </small>
-
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
                  No es un email válido
+             </small>
+             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "email.errors?.['isExists'] && statusForm()"  >
+                Email {{email.value}} ya ha sido usado
              </small>
 
              @if(mode() == 'new' || mode() == 'view') {
@@ -73,6 +76,7 @@
                          name="demo[]"
                          url=""
                          (onSelect)="onUpload($event)"
+                         (onRemove)="fileRemoved($event)"
                          [multiple]="false" accept="image/*"
                          auto="true"
                          maxFileSize="1000000"

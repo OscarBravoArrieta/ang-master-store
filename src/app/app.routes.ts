@@ -35,11 +35,11 @@
 
 
              },
-            //  {
-            //      path: 'auth-login',
-            //      title: 'Login',
-            //      loadComponent: () => import ('@auth/login/login.component')
-            //  },
+             {
+                 path: 'auth-login',
+                 title: 'Login',
+                 loadComponent: () => import ('@auth/login/login.component')
+             },
              {
                  path: 'auth-register',
                  title: 'Crear cuenta',
