@@ -1,5 +1,5 @@
  import { computed, effect, inject, Injectable, Injector, signal } from '@angular/core'
- import { LocalStorageService } from './local-storage.service'
+ import { LocalStorageService } from '@services/local-storage.service'
  import { Product } from '@model/products.model'
 
  @Injectable({
@@ -12,6 +12,12 @@
      cart = signal<Product[]>([])
      total = computed(() => {
          const cart = this.cart()
+         return cart.reduce((total, product) => total + product.price, 0)
+     })
+
+     counProducts = computed(() => {
+         const cart = this.cart()
+         return cart.reduce((count, item) => count + (item.quantity || 1), 0);
      })
 
      constructor() {
@@ -24,14 +30,12 @@
 
          }
 
-
      }
 
      //--------------------------------------------------------------------------------------------
      synchronizeLocalStorage(){
 
          effect (() => {
-
              const productsInCart = this.cart()
              this.localStorageService.setItem('productsInCart', productsInCart)
          }, { injector: this.injector })
@@ -50,7 +54,6 @@
                  quantity: (currentProducts[existingProductIndex].quantity || 0) + quantity,
              }
              this.cart.set(currentProducts)
-             console.log(currentProducts[existingProductIndex])
 
          } else {
              this.cart.update((products: Product[])=>[
@@ -67,6 +70,21 @@
 
      //--------------------------------------------------------------------------------------------
 
+     delete(productId: number | undefined){
 
+         if(!productId) {
+             this.cart.set([])
+         }
+
+         const currentProducts = this.cart()
+         const productExists = currentProducts.some((product: Product) => product.id === productId)
+
+         this.cart.update((products: Product[]) =>
+             products.filter((product: Product) => product.id != productId)
+         )
+
+         this.synchronizeLocalStorage()
+
+     }
 
  }

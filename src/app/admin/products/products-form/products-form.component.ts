@@ -1,5 +1,5 @@
  import { Component, inject, signal } from '@angular/core'
- import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule, FormArray, FormControl, ValidationErrors, AbstractControl} from '@angular/forms'
+ import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, AbstractControl} from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { ProductsService } from '@services/products.service'
@@ -164,8 +164,6 @@
              title: this.form.value.title,
              price: Number(this.form.value.price)
          }
-
-          console.log(this.currentId(), productToUpdate)
 
          this.productsService.updateProduct(this.currentId(),productToUpdate).subscribe({
              next: (updatedProduct: Product) => {

@@ -25,12 +25,14 @@ export class HeaderComponent {
      readonly router = inject(Router)
      cart = this.cartService.cart
      items: MenuItem[] | undefined
-     currentUserProfile = signal<User | null>(null)
+     currentUserProfile = this.authService.currentUserProfile
 
      ngOnInit() {
 
          this.getProfile()
+         this.currentUserProfile = this.authService.currentUserProfile
          this.defineMenu()
+
 
      }
 
@@ -88,5 +90,8 @@ export class HeaderComponent {
      }
 
      //--------------------------------------------------------------------------------------------
+     goToCart(){
+         this.router.navigate(['products-in-cart'])
+     }
 
  }

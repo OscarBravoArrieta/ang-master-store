@@ -1,10 +1,9 @@
 <div>
-     <p-toast />
-     <p-confirmdialog />
-
+     <p-toast/>
+     <p-confirmdialog/>
      <p-table #dt
          [columns] = "cols()"
-         [value] = "dataSet()"
+         [value] = "cart()"
          responsiveLayout = "scroll"
          [paginator] = "true"
          currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
@@ -18,9 +17,8 @@
          [autoLayout] = "true">
          <ng-template pTemplate="caption">
              <div class="flex align-items-center justify-content-between">
-                 <span class="text-2xl font-bold text-red-500" >{{dataSource() | titlecase }}</span>
+                 <span class="text-2xl font-bold text-red-500" >Products in cart</span>
                  <div class = "flex align-items-end">
-
                      <p-iconfield>
                          <p-inputicon class="pi pi-search" />
                          <input
@@ -33,29 +31,22 @@
                          />
 
                      </p-iconfield>
-
                      <p-button
-                         label="Exportar"
-                         (click) = "export()"
-                         icon="pi pi-file-excel"
+                         label="Borrar todos"
+                         (click) = "confirm(null)"
+                         icon="pi pi-trash"
                          class="ml-2"
                          type="button"
                          [disabled]="isDisabled()"
                      />
-                     <p-button
-                         label="Nuevo"
-                         (click) = "callDialog(null, 'new')"
-                         icon="pi pi-plus"
-                         class="ml-2"
-                         type="button"
-                     />
-                </div>
-            </div>
+                 </div>
+             </div>
          </ng-template>
          <ng-template #header let-columns>
              <tr class="p-selectable-row font-bold text-primary">
-                 @if(dataSet().length > 0) {
-                     @for (col of columns; track col) {
+                 @if(cart().length > 0) {
+                     @for (col of columns; track col.field) {
+
                          <th pSortableColumn="{{col.field}}" pSortableColumnDisabled="{{col.sortableColumnDisabled}}">
 
                              {{col.header}}
@@ -63,7 +54,7 @@
                                  <p-sortIcon field="{{col.field}}" />
                              }
 
-                         </th>
+                        </th>
                      }
 
                      <th style="text-align:center;">Acciones</th>
@@ -88,7 +79,7 @@
                              }
                              @case('number'){
                                  <div class="flex justify-content-end flex-wrap">
-                                     <label> {{rowData[col.field] | currency}}</label>
+                                     <label> {{rowData[col.field] | number}}</label>
                                  </div>
                              }
                              @case('object'){
@@ -107,37 +98,19 @@
                  <td>
                      <div class="flex justify-content-center flex-wrap">
                          <p-button
-                             (click) = "callDialog(rowData.id, 'view')"
-                             class = "mr-2"
-                             icon = "pi pi-eye"
+                             class = ""
+                             (click) = "confirm(rowData)"
+                             icon = "pi pi-trash"
                              styleClass = "p-button-sm p-button-rounded p-button-outlined"
-                             pTooltip = "Ver detalles">
+                             pTooltip = "ELiminar: {{rowData.title}}"   >
                          </p-button>
-                         <p-button
-                             (click) = "callDialog(rowData.id, 'edit')"
-                             class = "mr-2"
-                             icon = "pi pi-pencil"
-                             styleClass = "p-button-sm p-button-rounded p-button-outlined"
-                             pTooltip = "Actualizar">
-                         </p-button>
-
-                         @if(this.dataSource() == 'products' || this.dataSource() == 'categories') {
-                             <p-button
-                                 class = ""
-                                 (click) = "confirm(this.dataSource(), rowData.id)"
-                                 icon = "pi pi-trash"
-                                 styleClass = "p-button-sm p-button-rounded p-button-outlined"
-                                 pTooltip = "Borrar">
-                             </p-button>
-
-                         }
                      </div>
 
                  </td>
              </tr>
          </ng-template>
          <ng-template pTemplate="emptymessage" let-c>
-                     <tr>
+         <tr>
             <td [attr.colspan]="c.length">
                  <div class="flex align-items-center justify-content-center">
 
@@ -149,7 +122,14 @@
         </tr>
          </ng-template>
          <ng-template pTemplate="summary">
-             <span class = "font-sub-title">Total registros en esta vista: {{dataSet().length | number }} </span>
+             @if(cart().length > 0) {
+                 <div class="flex flex-column justify-content-center">
+                     <span class="font-bold">Registros: {{cart().length | number }}</span>
+                     <span class="font-bold">Productos: {{cartService.counProducts() | number }}</span>
+                     <span class="font-bold text-base">Valor total: {{cartService.total() | currency }}</span>
+                 </div>
+             }
          </ng-template>
      </p-table>
- </div>
+
+</div>

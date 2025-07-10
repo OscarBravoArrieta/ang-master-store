@@ -49,7 +49,12 @@
                  path: 'auth-profile',
                  title: 'User profile',
                  loadComponent: () => import ('@auth/profile/profile.component')
-            },
+             },
+             {
+                 path: 'products-in-cart',
+                 title: 'Products in cart',
+                 loadComponent: () => import ('@shared/cart/cart.component')
+             }
          ]
      },
      {

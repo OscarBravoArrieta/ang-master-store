@@ -5,13 +5,18 @@
 
             </p-image>
 
-                 @if(currentUserProfile()?.role == 'admin'){
+            @if(currentUserProfile()?.role == 'admin'){
 
-                    <p-button label="Categorías" size="small" [link]="true" routerLink = "/admin-categories-list"></p-button>
-                    <p-button label="Productos" size="small" [link]="true" routerLink = "/admin-products-list"></p-button>
-                    <p-button label="Usuarios" size="small" [link]="true" routerLink = "/admin-user-list"></p-button>
+                 <p-button label="Categorías" size="small" [link]="true" routerLink = "/admin-categories-list"></p-button>
+                 <p-button label="Productos" size="small" [link]="true" routerLink = "/admin-products-list"></p-button>
+                 <p-button label="Usuarios" size="small" [link]="true" routerLink = "/admin-user-list"></p-button>
 
-                }
+            }@else{
+
+                 <p-button label="Productos" size="small" [link]="true" routerLink = "/dashboard"></p-button>
+
+            }
+            <!-- profile: {{profile()?.name}} -->
 
         </div>
         <div class="flex justify-content-end align-items-center flex-wrap">
@@ -46,10 +51,11 @@
                 <div class="card flex justify-center ml-2">
                     <div class="card flex">
                          <p-overlaybadge class="mr-2" value="{{ cart().length }}" severity="danger">
-                             <i class="pi pi-shopping-cart cursor-pointer" style="font-size: 2rem"></i>
+                             <i (click) = "goToCart()" class="pi pi-shopping-cart cursor-pointer" style="font-size: 2rem"></i>
                          </p-overlaybadge>
                     </div>
                 </div>
+
             }
             @if(currentUserProfile()){
                 <div class="card flex justify-center ml-2">
