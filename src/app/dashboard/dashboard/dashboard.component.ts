@@ -62,7 +62,7 @@
                      { name: 'Todas', value: '' }, ...current
                  ])
              }, error: (error: any) => {
-                 console.log('Error obtainig Categorias...', error.error.message)
+                 console.log('Error obtainig Categories...', error.error.message)
              }
          })
 

@@ -1,9 +1,11 @@
  import { Component, inject, signal } from '@angular/core'
  import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
+ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
  import { AuthService } from '@services/auth.service'
  import { Router, RouterModule } from '@angular/router'
  import { UserToLog, User  } from '@model/users.model'
+ import { UserFormComponent } from '@admin/users/user-form/user-form.component'
 
 
  @Component({
@@ -14,6 +16,9 @@
          RouterModule,
          ReactiveFormsModule
      ],
+     providers: [
+         DialogService,
+     ],
      templateUrl: './login.component.html',
      styleUrl: './login.component.scss'
  })
@@ -22,6 +27,8 @@
      private formBuilder = inject (FormBuilder)
      private authService = inject(AuthService)
      private router = inject(Router)
+     private dialogService = inject(DialogService)
+     ref: DynamicDialogRef | undefined
 
      form!: FormGroup
      statusForm = signal(false)
@@ -79,9 +86,6 @@
                      if (currentUserProfile.role === 'customer') {
 
                          this.router.navigate(['dashboard'])
-                             .then(() => {
-                             window.location.reload()
-                         })
 
                      } else {
 
@@ -99,5 +103,25 @@
      }
 
      // -------------------------------------------------------------------------------------------
+     callCreateUser(id = null, mode: string = 'new'){
+
+         this.ref = this.dialogService.open(UserFormComponent, {
+             header: 'Crear usuario',
+             data: {
+                 id,
+                 mode
+             },
+             width: 'w-30rem',
+             closeOnEscape: false,
+             contentStyle: { overflow: 'auto' },
+             closable: true,
+             draggable: true,
+             modal:true,
+             breakpoints: {
+                 '960px': '75vw',
+                 '640px': '90vw'
+             },
+         })
+     }
 
  }

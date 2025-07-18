@@ -1,8 +1,9 @@
  import { HttpClient, HttpHeaders } from '@angular/common/http'
  import { Injectable, inject} from '@angular/core'
- import { User, UserToUpdate } from '@model/users.model'
+ import { AuthService } from './auth.service'
+ import { User, UserToLog, UserToUpdate } from '@model/users.model'
  import { environment } from "@environments/environment.development"
-import { map } from 'rxjs'
+ import { map, switchMap } from 'rxjs'
 
 
  @Injectable({
@@ -11,6 +12,7 @@ import { map } from 'rxjs'
  export class UsersService {
 
      private http = inject(HttpClient)
+     private authService = inject(AuthService)
      private readonly endPoint = environment.API_URL
 
      httpOptions = {
@@ -60,6 +62,21 @@ import { map } from 'rxjs'
 
 
      //--------------------------------------------------------------------------------------------
+     createAndLogin (user: User) {
+
+         const userToLog: UserToLog = {
+             email: user.email,  //'john@mail.com',
+             password: user.password //'changeme'
+         }
+
+         return this.createUser(user)
+         .pipe(
+             switchMap(() => this.authService.logIn(userToLog))
+         )
+     }
+
+     //--------------------------------------------------------------------------------------------
+
 
      updateUser(id: number | undefined, data: UserToUpdate){
 

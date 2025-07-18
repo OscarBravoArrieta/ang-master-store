@@ -1,49 +1,50 @@
- <form [formGroup]="form" (ngSubmit)="confirm()">
-     <div class="flex align-content-center justify-content-center flex-wrap vertical-align-baseline" style="min-height: 200px; height:100vh ;">
-         <p-toast />
-         <p-confirmdialog />
-         <div class="mb-4 p-8 w-5">
-             <p-card header="Perfil del usuario">
-                     <p-fieldset>
-                         <ng-template #header>
-                             <div class="flex items-center gap-2 px-2">
-                                 <p-avatar  shape="circle">
-                                     <img src="{{this.currentUserProfile() ? currentUserProfile()?.avatar: ''}}" crossorigin="anonymous">
-                                 </p-avatar>
-                                 <span class="font-bold">{{this.currentUserProfile() ? currentUserProfile()?.name : ''}}</span>
-                             </div>
-                         </ng-template>
+<div>
+    <form [formGroup]="form" (ngSubmit)="confirm()">
+            <p-toast />
+            <p-confirmdialog />
+                <p-card header="Perfil del usuario" [style]="{ width: '30rem', overflow: 'hidden' }">
+                        <p-fieldset>
+                            <ng-template #header>
+                                <div class="flex items-center gap-2 px-2">
+                                    <p-avatar  shape="circle">
+                                        <img src="{{this.currentUserProfile() ? currentUserProfile()?.avatar: ''}}" crossorigin="anonymous">
+                                    </p-avatar>
+                                    <span class="font-bold">{{this.currentUserProfile() ? currentUserProfile()?.name : ''}}</span>
+                                </div>
+                            </ng-template>
 
-                         <p class="m-0">
-                             <label for="email" class="block text-900 font-medium mb-1">Email</label>
-                             <input formControlName="email" id="email" type="text" placeholder="Email" pInputText pSize="small" class="w-full mb-2">
-                             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
-                                 Correo electrónico es requerido
-                             </small>
+                            <p class="m-0">
+                                <label for="email" class="block text-900 font-medium mb-1">Email</label>
+                                <input formControlName="email" id="email" type="text" placeholder="Email" pInputText pSize="small" class="w-full mb-2">
+                                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['required'] && statusForm()" >
+                                    Correo electrónico es requerido
+                                </small>
 
-                             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
-                                 No es un email válido
-                             </small>
-                             <label for="name" class="block text-900 font-medium mb-1">Nombre</label>
-                             <input formControlName="name" id="name" type="text" placeholder="Name" pInputText pSize="small" class="w-full mb-2">
-                             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
-                                 Nombre es requerido
-                             </small>
-                             <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
-                                 {{errorFromApi()}}
-                             </small>
-                             <label for="rol" class="block text-900 font-medium mb-1">Rol</label>
-                             <input value="{{currentUserProfile()?.role}}" [disabled]="true" id="rol" type="text" placeholder="Rol" pInputText pSize="small" class="w-full mb-2">
-                         </p>
-                     </p-fieldset>
+                                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('email')?.errors?.['email'] && statusForm()" >
+                                    No es un email válido
+                                </small>
+                                <label for="name" class="block text-900 font-medium mb-1">Nombre</label>
+                                <input formControlName="name" id="name" type="text" placeholder="Name" pInputText pSize="small" class="w-full mb-2">
+                                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('name')?.errors?.['required'] && statusForm()" >
+                                    Nombre es requerido
+                                </small>
+                                <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >
+                                    {{errorFromApi()}}
+                                </small>
+                                <label for="rol" class="block text-900 font-medium mb-1">Rol</label>
+                                <input value="{{currentUserProfile()?.role}}" [disabled]="true" id="rol" type="text" placeholder="Rol" pInputText pSize="small" class="w-full mb-2">
+                            </p>
+                        </p-fieldset>
 
-                 <ng-template #footer>
-                     <div class="flex gap-4 mt-1">
-                         <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" (click)="goHome()"/>
-                         <p-button label="Save" class="w-full" type = 'submit' styleClass="w-full" [disabled]="changeDetenction()" />
-                     </div>
-                 </ng-template>
-             </p-card>
-         </div>
-     </div>
- </form>
+                    <ng-template #footer>
+                        <div class="flex gap-4 mt-1">
+                            <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" (click)="goHome()"/>
+                            <p-button label="Save" class="w-full" type = 'submit' styleClass="w-full" [disabled]="changeDetenction()" />
+                        </div>
+                    </ng-template>
+                </p-card>
+
+
+
+    </form>
+ </div>

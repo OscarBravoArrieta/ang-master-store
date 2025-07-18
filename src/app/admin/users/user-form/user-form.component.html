@@ -3,6 +3,13 @@
     <form [formGroup]="form" (ngSubmit)="save()" >
 
          <div class="flex flex-column justify-content-center flex-wrap">
+             @if(mode() == 'view') {
+                 <div class="flex justify-content-center flex-wrap">
+                     <p-avatar  shape="circle" size="xlarge">
+                         <img src="{{currentUser()?.avatar }}" crossorigin="anonymous">
+                     </p-avatar>
+                </div>
+             }
 
              <label for="name" class="block text-900 font-medium mb-1">Nombre</label>
              <input id="name" type="text" formControlName="name" placeholder="Name" pInputText pSize="small" class="w-full">
@@ -26,30 +33,33 @@
              </small>
 
              @if(mode() == 'new' || mode() == 'view') {
+                 <div class="flex justify-content-between">
+                    <div class="">
+                        <label for="password" class="block text-900 font-medium mb-1">Password</label>
+                        <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
 
-                 <label for="password" class="block text-900 font-medium mb-1">Password</label>
-                 <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full" formControlName="password" size="small" [toggleMask]="true"  placeholder="Password" [feedback]="false" />
+                        <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
+                            Password es requerido
+                        </small>
+                        <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['minlength'] && statusForm()" >
+                            Mínimo 8 caracteres
+                        </small>
 
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['required'] && statusForm()" >
-                     Password es requerido
-                 </small>
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('password')?.errors?.['minlength'] && statusForm()" >
-                     Mínimo 8 caracteres
-                 </small>
+                    </div>
+                    <div class="ml-2">
+                        <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirma password</label>
+                        <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
 
-                 <label for="passwordConfirm" class="block text-900 font-medium mb-1">Confirma password</label>
-                 <p-password [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"class="w-full"  formControlName="passwordConfirm" size="small" [toggleMask]="true"  placeholder="Confirm password" [feedback]="false" />
+                        <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['required'] && statusForm()" >
+                            Confirmar password es requerido
+                        </small>
 
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['required'] && statusForm()" >
-                     Confirmación password es requerido
-                 </small>
+                        <small class="p-error flex align-items-center message-error text-xs" [class.show] = "!this.form.get('passwordConfirm')?.errors?.['required'] && this.form.hasError('mismatch') && statusForm()" >
+                            Passwords no coinciden
+                        </small>
+                    </div>
+                 </div>
 
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "!this.form.get('passwordConfirm')?.errors?.['required'] && this.form.hasError('mismatch') && statusForm()" >
-                     Passwords no coinciden
-                 </small>
-                 <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('passwordConfirm')?.errors?.['minlength'] && statusForm()" >
-                     Mínimo 8 caracteres
-                 </small>
                  <label for="rol" class="block text-900 font-medium mb-1">Role</label>
                  <p-select
                      formControlName="role"
@@ -96,13 +106,6 @@
                  <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('avatar')?.errors?.['pattern'] && statusForm()" >
                      No es una URL válida
                  </small>
-             }
-             @if(mode() == 'view') {
-                 <div class="flex justify-content-center flex-wrap">
-                     <p-avatar  shape="circle" size="xlarge">
-                         <img src="{{currentUser()?.avatar }}" crossorigin="anonymous">
-                     </p-avatar>
-                </div>
              }
 
              <small class="p-error flex align-items-center message-error text-xs" [class.show] = "errorFromApi() && !statusForm()" >

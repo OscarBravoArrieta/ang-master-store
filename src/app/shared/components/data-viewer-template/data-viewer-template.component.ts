@@ -58,7 +58,7 @@
                          id,
                          mode
                      },
-                     width: '30vw',
+                     width: 'w-30rem',
                      closeOnEscape: false,
                      contentStyle: { overflow: 'auto' },
                      closable: true,

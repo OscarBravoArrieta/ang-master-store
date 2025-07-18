@@ -27,7 +27,8 @@
  import { ScrollPanelModule } from 'primeng/scrollpanel'
  import { ListboxModule } from 'primeng/listbox'
  import { BadgeModule } from 'primeng/badge';
- import { OverlayBadgeModule } from 'primeng/overlaybadge';
+ import { OverlayBadgeModule } from 'primeng/overlaybadge'
+ import { SplitterModule } from 'primeng/splitter'
 
  @NgModule({
      declarations: [],
@@ -60,7 +61,8 @@
          ScrollPanelModule,
          ListboxModule,
          BadgeModule,
-         OverlayBadgeModule
+         OverlayBadgeModule,
+         SplitterModule
 
      ],
      exports: [
@@ -90,7 +92,8 @@
          ScrollPanelModule,
          ListboxModule,
          BadgeModule,
-         OverlayBadgeModule
+         OverlayBadgeModule,
+         SplitterModule
      ]
  })
  export class PrimeNgModule {}

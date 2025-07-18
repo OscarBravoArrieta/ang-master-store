@@ -123,13 +123,24 @@
          </ng-template>
          <ng-template pTemplate="summary">
              @if(cart().length > 0) {
-                 <div class="flex flex-column justify-content-center">
-                     <span class="font-bold">Registros: {{cart().length | number }}</span>
-                     <span class="font-bold">Productos: {{cartService.counProducts() | number }}</span>
-                     <span class="font-bold text-base">Valor total: {{cartService.total() | currency }}</span>
+
+                 <div class="flex justify-content-between flex-wrap">
+                     <div class="flex flex-column align-items-start justify-content-center ml-2">
+                         <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Registros: {{cart().length | number }}</span>
+                         <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Productos: {{cartService.counProducts() | number }}</span>
+                         <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Valor total: {{cartService.total() | currency }}</span>
+                     </div>
+                     <div class="flex align-items-center justify-content-center mr-2 mt-2">
+                         <p-button
+                             label="Efectuar pago"
+                             icon="pi pi-money-bill"
+                             class="ml-2"
+                             type="button"
+                         />
+                     </div>
                  </div>
+
              }
          </ng-template>
      </p-table>
-
-</div>
+ </div>

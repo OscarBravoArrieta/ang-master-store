@@ -36,6 +36,7 @@
      currentId = signal<number>(0)
      isDisabled = signal<boolean>(this.dynamicDialogConfig.data.mode == 'view' ?  true: false)
      mode = signal<string>('')
+     target = signal<string>('')
      roles: SelectStringInterface[] = []
      image: any
 
@@ -53,6 +54,7 @@
              {name: 'Admin', value: 'admin'},
              {name: 'Customer', value: 'customer'}
          ]
+
 
          if (this.dynamicDialogConfig.data) {
 
@@ -83,7 +85,7 @@
                      ]
                  )
              ],
-            passwordConfirm: [{value: null, disabled: this.isDisabled()},
+             passwordConfirm: [{value: null, disabled: this.isDisabled()},
                  Validators.compose([Validators.minLength(8), Validators.required])
              ],
              role: [{value: null, disabled: this.isDisabled()},
@@ -242,7 +244,6 @@
      }
 
      //--------------------------------------------------------------------------------------------
-
 
      async uploadImage(file: any) {
          console.log(file)

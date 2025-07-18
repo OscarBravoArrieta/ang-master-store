@@ -37,8 +37,7 @@
         )
 
      }
-
-     //--------------------------------------------------------------------------------------------
+     //---------------------------------------------------------------------------------------------
 
      isLogged() {
 
@@ -75,7 +74,7 @@
 
      logOut() {
 
-         localStorage.clear()
+         this.localStorageService.removeItem("token")
          this.router.navigate(['auth-login'])
          .then(() => {
              window.location.reload()
