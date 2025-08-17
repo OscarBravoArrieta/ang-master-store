@@ -18,7 +18,8 @@
         "@model/*": ["app/shared/models/*"],
         "@services/*": ["app/shared/services/*"],
         "@utils/*": ["app/shared/utils/*"],
-        "@environments/*": ["environments/*"]
+        "@environments/*": ["environments/*"],
+        "@guards/*": ["app/guards/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

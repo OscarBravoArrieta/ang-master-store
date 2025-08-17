@@ -55,7 +55,6 @@
              {name: 'Customer', value: 'customer'}
          ]
 
-
          if (this.dynamicDialogConfig.data) {
 
              this.currentId.set(this.dynamicDialogConfig.data.id)
@@ -124,7 +123,7 @@
          return this.usersService.getUsers().pipe(
              map(users => {
                  const emailExists = users.some(user => user.email === control.value && user.id !== this.currentId())
-                 console.log(emailExists)
+                 console.log('emailExists:...',emailExists)
                  return emailExists ? { isExists: true } : null;
              })
          )
@@ -135,9 +134,9 @@
 
      save() {
 
-         if (this.mode() == 'new') {this.create()}
+         if ((this.mode() == 'new') || (this.mode() == 'newAndLogin')) {this.create()}
          if (this.mode() == 'edit') {this.update()}
-         this.router.navigate(['admin-user-list'])
+         //this.router.navigate(['admin-user-list'])
 
      }
 
@@ -157,19 +156,45 @@
                  avatar: res.location
              }
 
-             this.usersService.createUser(userToCreate).subscribe({
-                 next: (newUser: User) => {
-                     this.ref.close(this.formBuilder)
-                     this.router.navigate(['admin-user-list'])
+             if(this.mode() == "new") {
 
-                 }, error: (error: any) => {
+                this.usersService.createUser(userToCreate).subscribe({
+                    next: (newUser: User) => {
+                        this.ref.close(newUser)
+                        this.router.navigate(['admin-user-list'])
 
-                     console.log('error-> ', error.error.message)
-                     this.errorFromApi.set(error.statusText)
+                    }, error: (error: any) => {
 
-                 }
+                        console.log('error-> ', error.error.message)
+                        this.errorFromApi.set(error.statusText)
 
-             })
+                    }
+
+                })
+
+             }
+
+             if(this.mode() == "newAndLogin") {
+                 this.usersService.createAndLogin(userToCreate).subscribe({
+                     next:(newUSer: User) => {
+                         this.ref.close(newUSer)
+                         if(newUSer.role == 'customer') {
+
+                             this.router.navigate(['/dashboard'])
+
+                         } else {
+                             this.router.navigate([''])
+                         }
+
+                     }, error: (error: any) => {
+                        console.log('error-> ', error.error.message)
+                        this.errorFromApi.set(error.statusText)
+
+                     }
+
+                 })
+             }
+
          }
 
      }

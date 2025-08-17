@@ -1,4 +1,4 @@
- import { Component, inject, signal } from '@angular/core'
+ import { Component, inject, signal, SimpleChanges } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
  import { UsersService } from '@services/users.service'
@@ -24,8 +24,11 @@
      ngOnInit(){
 
          this.getUsers()
-         console.log('User-list-component: init')
+
      }
+     //--------------------------------------------------------------------------------------------
+
+
      //--------------------------------------------------------------------------------------------
 
      getUsers() {

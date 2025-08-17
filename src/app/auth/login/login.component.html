@@ -1,14 +1,14 @@
 
 <div>
     <form [formGroup]="form" (ngSubmit)="login()">
-         <p-card header="Control de accceso" [style]="{ width: '30rem', overflow: 'hidden' }">
+         <p-card header="Control de acceso" [style]="{ width: '30rem', overflow: 'hidden' }">
 
 
         <div class="text-center mb-1">
             <img src="logos/my-eCommerce1.png" alt="Image" height="50" class="mb-2">
             <div class="text-700 text-2xl font-medium mb-2">Bienvenido de nuevo</div>
             <span class="text-600 font-medium line-height-3">¿No tienes una cuenta?</span>
-            <p-button (click) = "callCreateUser(null, 'new')" label="¡Créala ahora!" size="small" [link]="true"></p-button>
+            <p-button (click) = "callCreateUser(null, 'newAndLogin')" label="¡Créala ahora!" size="small" [link]="true"></p-button>
         </div>
 
         <div class="">

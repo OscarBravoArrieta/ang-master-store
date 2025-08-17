@@ -1,5 +1,22 @@
 <div>
      <p-toast/>
+     <p-dialog
+     header="✅ Pago Exitoso"
+         [(visible)]="showSuccess "
+         modal="true"
+         [closable]="false"
+         [style]="{width: '30vw'}"
+         [contentStyle]="{textAlign: 'center'}"
+         >
+         <div class="success-content">
+             <i class="pi pi-check-circle" style="font-size: 3rem; color: green;"></i>
+             <p style="margin-top: 1rem; font-size: 1.2rem;">
+                 ¡Tu pago se ha procesado correctamente!
+             </p>
+             <button pButton type="button" label="Aceptar" (click)="closeDialog()" class="p-button-success mt-3"></button>
+         </div>
+     </p-dialog>
+
      <p-confirmdialog/>
      <p-table #dt
          [columns] = "cols()"
@@ -102,7 +119,7 @@
                              (click) = "confirm(rowData)"
                              icon = "pi pi-trash"
                              styleClass = "p-button-sm p-button-rounded p-button-outlined"
-                             pTooltip = "ELiminar: {{rowData.title}}"   >
+                             pTooltip = "Eliminar: {{rowData.title}}"   >
                          </p-button>
                      </div>
 
@@ -129,17 +146,21 @@
                          <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Registros: {{cart().length | number }}</span>
                          <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Productos: {{cartService.counProducts() | number }}</span>
                          <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Valor total: {{cartService.total() | currency }}</span>
-                     </div>
-                     <div class="flex align-items-center justify-content-center mr-2 mt-2">
-                         <p-button
-                             label="Efectuar pago"
-                             icon="pi pi-money-bill"
-                             class="ml-2"
-                             type="button"
-                         />
-                     </div>
-                 </div>
 
+                     </div>
+
+                     <div class="flex align-items-center justify-content-center mr-2 mt-2">
+                         <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                         <!-- <p-button
+                             class = ""
+                             (click) = "show()"
+                             icon = "pi pi-trash"
+                             styleClass = "p-button-sm p-button-rounded p-button-outlined"
+                             >
+                         </p-button> -->
+                     </div>
+
+                 </div>
              }
          </ng-template>
      </p-table>

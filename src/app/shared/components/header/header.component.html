@@ -11,10 +11,9 @@
                  <p-button label="Productos" size="small" [link]="true" routerLink = "/admin-products-list"></p-button>
                  <p-button label="Usuarios" size="small" [link]="true" routerLink = "/admin-user-list"></p-button>
 
-            }@else{
-
+            }
+            @if(currentUserProfile()?.role == 'customer'){
                  <p-button label="Ir a la tienda" size="small" [link]="true" routerLink = "/dashboard"></p-button>
-
             }
 
         </div>
@@ -47,7 +46,7 @@
             @if((currentUserProfile() && (currentUserProfile()?.role != 'admin')) ){
                 <div class="card flex justify-center ml-2">
                     <div class="card flex">
-                         <p-overlaybadge class="mr-2" value="{{ cart().length }}" severity="danger">
+                         <p-overlaybadge class="mr-2" value="{{ cartService.counProducts() }}" severity="danger">
                              <i (click) = "goToCart()" class="pi pi-shopping-cart cursor-pointer" style="font-size: 2rem"></i>
                          </p-overlaybadge>
                     </div>

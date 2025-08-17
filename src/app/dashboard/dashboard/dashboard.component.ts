@@ -6,6 +6,7 @@
  import { SelectStringInterface } from '@model/common-models'
  import { Router, RouterModule } from '@angular/router'
  import { ProductDetailsComponent } from '@dashboard/product-details/product-details.component'
+ import { AuthService } from '@services/auth.service'
 
  @Component({
      selector: 'app-dashboard',
@@ -21,13 +22,14 @@
 
      private productService = inject(ProductsService)
      private categoriesService = inject(CategoriesService)
+     readonly authService = inject(AuthService)
      products = signal<Product[]>([])
      categories = signal<SelectStringInterface[]>([])
      idCategory = signal<string>('')
      categoryName = signal<string>('')
      private router = inject(Router)
 
-     condicion = false
+     currentUserProfile = this.authService.currentUserProfile
 
      //--------------------------------------------------------------------------------------------
 
@@ -35,6 +37,7 @@
 
          this.getCategories()
          this.getProducts()
+         this.currentUserProfile = this.authService.currentUserProfile
 
 
      }

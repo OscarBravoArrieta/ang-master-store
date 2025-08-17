@@ -6,12 +6,16 @@
  import { Product } from '@model/products.model'
  import { DataSchema } from '@model/data-schema.model'
  import { CurrencyPipe } from '@angular/common'
+ import { NgxPayPalModule } from 'ngx-paypal'
+ import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal'
+ import { environment } from '@environments/environment.development'
 
  @Component({
      selector: 'app-cart',
      imports: [
          PrimeNgModule,
-         CurrencyPipe
+         CurrencyPipe,
+         NgxPayPalModule
      ],
      providers: [
          DialogService,
@@ -32,6 +36,9 @@
      cart = this.cartService.cart
      cols = signal<DataSchema[]>([])
      isDisabled = signal<boolean>(this.cart().length === 0 ?  true: false)
+     showSuccess: boolean = false;
+
+     public payPalConfig ? : IPayPalConfig
 
      //--------------------------------------------------------------------------------------------
 
@@ -39,11 +46,72 @@
 
          this.getProducts()
          this.getCols()
+         this.initConfig()
 
      }
 
      //--------------------------------------------------------------------------------------------
 
+     private initConfig(): void {
+
+         this.payPalConfig = {
+             currency: 'EUR',
+             clientId: environment.clienId,
+             createOrderOnClient: (data) => <ICreateOrderRequest> {
+                 intent: 'CAPTURE',
+                 purchase_units: [{
+                     amount: {
+                         currency_code: 'EUR',
+                         value: this.cartService.total().toFixed(2),
+                         breakdown: {
+                             item_total: {
+                                  currency_code: 'EUR',
+                                  value: this.cartService.total().toFixed(2),
+                             }
+                         }
+                     },
+                     items: this.getItems()
+                 }]
+             },
+             advanced: {
+                 commit: 'true'
+             },
+             style: {
+                 label: 'paypal',
+                 layout: 'vertical'
+             },
+             onApprove: (data, actions) => {
+                 console.log('onApprove - transaction was approved, but not authorized', data, actions)
+                //  actions.order.get().then((details: any) => {
+                //      console.log('onApprove - you can get full order details inside onApprove: ', details);
+
+                //  })
+                 return actions.order.capture().then((details: any) => {
+                     this.showSuccess = true; // Mostrar diálogo
+                 })
+
+             },
+             onClientAuthorization: async (data) => {
+                 console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data)
+                 //this.showSuccess = true
+             },
+             onCancel: (data, actions) => {
+                 console.log('OnCancel', data, actions)
+                 //this.showCancel = true;
+
+             },
+             onError: err => {
+                 console.log('OnError', err)
+                 //his.showError = true;
+             },
+             onClick: (data, actions) => {
+                 console.log('onClick', data, actions)
+                 //this.resetStatus();
+             }
+         }
+     }
+
+     //--------------------------------------------------------------------------------------------
 
      getProducts(){
 
@@ -68,6 +136,30 @@
      }
 
      //--------------------------------------------------------------------------------------------
+
+     getItems(){
+
+         const items: any[] = []
+         let item = {}
+         this.cart().forEach((index: any) => {
+
+             item = {
+                 name: index.title,
+                 quantity: index.quantity.toString(),
+                 category: 'DIGITAL_GOODS',//index.category?.name,
+                 unit_amount: {
+                     currency_code: 'EUR',
+                     value: index.price.toFixed(2)
+                 }
+
+             }
+             items.push(item)
+         })
+         return items
+     }
+
+     //--------------------------------------------------------------------------------------------
+
      confirm(rowData: Product | null){
 
          this.confirmationService.confirm({
@@ -105,8 +197,23 @@
          this.cartService.delete(id)
          this.getProducts()
 
+     }
+
+     //--------------------------------------------------------------------------------------------
+
+     closeDialog() {
+
+         this.showSuccess = false
+         this.delete(undefined)
 
      }
 
      //--------------------------------------------------------------------------------------------
+     show(){
+
+         this.showSuccess = true
+
+     }
+
+
  }

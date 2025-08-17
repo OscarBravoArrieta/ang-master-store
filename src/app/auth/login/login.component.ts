@@ -28,12 +28,11 @@
      private authService = inject(AuthService)
      private router = inject(Router)
      private dialogService = inject(DialogService)
-     ref: DynamicDialogRef | undefined
+     ref!: DynamicDialogRef | undefined
 
      form!: FormGroup
      statusForm = signal(false)
      errorFromApi = signal<string>('')
-
 
      //--------------------------------------------------------------------------------------------
 
@@ -103,7 +102,7 @@
      }
 
      // -------------------------------------------------------------------------------------------
-     callCreateUser(id = null, mode: string = 'new'){
+     async callCreateUser(id = null, mode: string = 'new'){
 
          this.ref = this.dialogService.open(UserFormComponent, {
              header: 'Crear usuario',
@@ -123,5 +122,15 @@
              },
          })
      }
+
+     //--------------------------------------------------------------------------------------------
+
+     ngOnDestroy() {
+         if (this.ref) {
+             this.ref.close();
+         }
+     }
+
+     //--------------------------------------------------------------------------------------------
 
  }

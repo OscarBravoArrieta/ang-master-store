@@ -12,7 +12,7 @@
      cart = signal<Product[]>([])
      total = computed(() => {
          const cart = this.cart()
-         return cart.reduce((total, product) => total + product.price, 0)
+         return cart.reduce((total, item) => total + Number(item.price) * (item.quantity || 1),0)
      })
 
      counProducts = computed(() => {
@@ -86,5 +86,7 @@
          this.synchronizeLocalStorage()
 
      }
+
+     //--------------------------------------------------------------------------------------------
 
  }

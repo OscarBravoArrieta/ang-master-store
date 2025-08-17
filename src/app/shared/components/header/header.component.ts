@@ -20,7 +20,7 @@
 })
 export class HeaderComponent {
      readonly authService = inject(AuthService)
-     private cartService = inject(CartService)
+     readonly cartService = inject(CartService)
      readonly localStorageService = inject(LocalStorageService)
      readonly router = inject(Router)
      cart = this.cartService.cart
