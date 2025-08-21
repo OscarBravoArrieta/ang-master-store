@@ -58,7 +58,7 @@
 
              {field: 'id', header: 'Id', sortableColumnDisabled: false, contentType: 'number' },
              {field: 'title', header: 'Name', sortableColumnDisabled: false, contentType: 'string' },
-             {field: 'price', header: 'Price', sortableColumnDisabled: false, contentType: 'number' },
+             {field: 'price', header: 'Price', sortableColumnDisabled: false, contentType: 'currency' },
              {field: 'category', header: 'Category', sortableColumnDisabled: true, contentType: 'object' },
              {field: 'images', header: 'Image', sortableColumnDisabled: true, contentType: 'image-array' },
              {field: 'creationAt', header: 'Creation Date', sortableColumnDisabled: false, contentType: 'string' },

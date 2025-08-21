@@ -30,6 +30,7 @@
  import { OverlayBadgeModule } from 'primeng/overlaybadge'
  import { SplitterModule } from 'primeng/splitter'
  import { DialogModule } from 'primeng/dialog'
+ import { ProgressSpinnerModule } from 'primeng/progressspinner'
 
  @NgModule({
      declarations: [],
@@ -64,7 +65,8 @@
          BadgeModule,
          OverlayBadgeModule,
          SplitterModule,
-         DialogModule
+         DialogModule,
+         ProgressSpinnerModule
 
      ],
      exports: [
@@ -96,7 +98,8 @@
          BadgeModule,
          OverlayBadgeModule,
          SplitterModule,
-         DialogModule
+         DialogModule,
+         ProgressSpinnerModule
      ]
  })
  export class PrimeNgModule {}

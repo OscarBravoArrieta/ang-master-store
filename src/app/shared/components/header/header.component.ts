@@ -45,6 +45,7 @@ export class HeaderComponent {
                  next:(response: User)=> {
 
                      this.currentUserProfile.set(response)
+                     console.log(this.currentUserProfile)
 
                  }
              })

@@ -2,7 +2,7 @@
      <p-toast/>
      <p-dialog
      header="✅ Pago Exitoso"
-         [(visible)]="showSuccess "
+         [(visible)]="showSuccess"
          modal="true"
          [closable]="false"
          [style]="{width: '30vw'}"
@@ -94,6 +94,11 @@
                              @case('string'){
                                  <label> {{rowData[col.field]}}</label>
                              }
+                             @case('currency'){
+                                 <div class="flex justify-content-end flex-wrap">
+                                     <label> {{rowData[col.field] | currency: 'EUR'}}</label>
+                                 </div>
+                             }
                              @case('number'){
                                  <div class="flex justify-content-end flex-wrap">
                                      <label> {{rowData[col.field] | number}}</label>
@@ -145,19 +150,24 @@
                      <div class="flex flex-column align-items-start justify-content-center ml-2">
                          <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Registros: {{cart().length | number }}</span>
                          <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Productos: {{cartService.counProducts() | number }}</span>
-                         <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Valor total: {{cartService.total() | currency }}</span>
+                         <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight">Valor total: {{cartService.total() | currency: 'EUR'}}</span>
+                     </div>
 
+                     <div class="flex flex-column align-items-start justify-content-center ml-2">
+                         @if(showSpinner){
+                             <div class="card flex justify-center">
+                                 <p-progress-spinner
+                                     strokeWidth="8"
+                                     fill="transparent"
+                                     animationDuration=".5s"
+                                     [style]="{ width: '50px', height: '50px' }"
+                                 />
+                             </div>
+                         }
                      </div>
 
                      <div class="flex align-items-center justify-content-center mr-2 mt-2">
                          <ngx-paypal [config]="payPalConfig"></ngx-paypal>
-                         <!-- <p-button
-                             class = ""
-                             (click) = "show()"
-                             icon = "pi pi-trash"
-                             styleClass = "p-button-sm p-button-rounded p-button-outlined"
-                             >
-                         </p-button> -->
                      </div>
 
                  </div>

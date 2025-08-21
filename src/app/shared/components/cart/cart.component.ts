@@ -36,7 +36,8 @@
      cart = this.cartService.cart
      cols = signal<DataSchema[]>([])
      isDisabled = signal<boolean>(this.cart().length === 0 ?  true: false)
-     showSuccess: boolean = false;
+     showSuccess: boolean = false
+     showSpinner: boolean = false
 
      public payPalConfig ? : IPayPalConfig
 
@@ -82,12 +83,14 @@
              },
              onApprove: (data, actions) => {
                  console.log('onApprove - transaction was approved, but not authorized', data, actions)
+                 this.showSpinner = true
                 //  actions.order.get().then((details: any) => {
                 //      console.log('onApprove - you can get full order details inside onApprove: ', details);
 
                 //  })
                  return actions.order.capture().then((details: any) => {
-                     this.showSuccess = true; // Mostrar diálogo
+                     this.showSuccess = true
+                     this.showSpinner = false
                  })
 
              },
@@ -127,7 +130,7 @@
          this.cols.set([
 
              {field: 'title', header: 'Name', sortableColumnDisabled: false, contentType: 'string' },
-             {field: 'price', header: 'Price', sortableColumnDisabled: false, contentType: 'number' },
+             {field: 'price', header: 'Price', sortableColumnDisabled: false, contentType: 'currency' },
              {field: 'quantity', header: 'Quantity', sortableColumnDisabled: false, contentType: 'number' },
              {field: 'category', header: 'Category', sortableColumnDisabled: true, contentType: 'object' },
              {field: 'images', header: 'Image', sortableColumnDisabled: true, contentType: 'image-array' }
@@ -209,11 +212,4 @@
      }
 
      //--------------------------------------------------------------------------------------------
-     show(){
-
-         this.showSuccess = true
-
-     }
-
-
  }

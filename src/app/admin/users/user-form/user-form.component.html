@@ -71,6 +71,7 @@
                      placeholder="Elija rol"
                      size="small"
                      class="w-full md:w-56"
+                     pTooltip = "Admin: Gestión de registos. Customer: Solo compras"
                  />
                  <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('role')?.errors?.['required'] && statusForm()" >
                      Rol es requerido

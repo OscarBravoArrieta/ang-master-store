@@ -29,7 +29,7 @@
                          {{this.form.value.description}}
                      </p>
                  </p-scrollPanel>
-                 <span class = "text-3xl text-left text-pink-400 mt-0">Precio: {{form.value.price | currency }}</span>
+                 <span class = "text-3xl text-left text-pink-400 mt-0">Precio: {{form.value.price | currency: 'EUR' }}</span>
                  <small class="p-error flex align-items-center message-error text-xs" [class.show] = "this.form.get('price')?.errors?.['required'] && statusForm()">
                      Precio es requerido
                  </small>

@@ -13,7 +13,7 @@
 
      </ng-template>
      <ng-template #title> {{product()?.title}} </ng-template>
-     <ng-template #subtitle> {{product()?.price | currency}} </ng-template>
+     <ng-template #subtitle> {{product()?.price | currency: 'EUR'}} </ng-template>
      <p class = "text-sm text-justify m-0">
          {{product()?.description}}
      </p>
