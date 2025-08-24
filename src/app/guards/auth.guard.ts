@@ -8,7 +8,6 @@
 
      const authService = inject(AuthService)
      const router = inject(Router)
-     console.log('Autenticated...', authService.isLogged())
 
      if(!authService.isLogged()){
          router.navigate(['/auth-login'])
@@ -18,24 +17,4 @@
          return true
      }
 
-
-
-
-    //  console.log('autenticated...', authService.isLogged())
-
-
-    //  if(authService.isLogged()){
-    //      console.log('autenticated...', authService.isLogged())
-    //      return inject(AuthService).getProfile().pipe(
-    //      map((user: User) => {
-    //          if(user) return true
-
-    //          router.navigate(['/auth-login'])
-    //          return false
-    //      })
-    //     )
-    //  }
-    //  console.log('asdfasdf...')
-    //  router.navigate(['/auth-login'])
-    //  return false
  }

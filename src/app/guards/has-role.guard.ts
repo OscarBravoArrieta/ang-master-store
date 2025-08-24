@@ -19,7 +19,6 @@
          map((user: User) => {
              if(!user) return false
 
-             console.log('Rol en cuestión: ',  user.role )
              if(!roles.includes(user.role!)){
                  router.navigate(['unauthorized'])
                  return false

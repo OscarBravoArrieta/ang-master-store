@@ -55,8 +55,6 @@
          const token: Token | null = this.tokenService.getToken()
          const access_token: string | null = token ? token.access_token : null
 
-         //if(token == null) return null
-
          return this.http.get<User>(
 
              `${this.endPoint}/auth/profile`,
@@ -65,8 +63,7 @@
          ).pipe(
              tap(currentUserProfile => {
                  this.currentUserProfile.set(currentUserProfile)
-             }
-            )
+             })
          )
 
      }
