@@ -7,6 +7,7 @@
  import { CartService } from '@services/cart.service'
  import { LocalStorageService } from '@services/local-storage.service'
  import { Router, RouterModule } from '@angular/router'
+import { error } from 'console'
 
  @Component({
      selector: 'app-header',
@@ -40,16 +41,20 @@ export class HeaderComponent {
 
      getProfile() {
 
-         if(this.authService.isLogged()) {
-             this.authService.getProfile().subscribe({
+         if (this.authService.isLogged() == false) {return}
+
+        //  if(this.authService.isLogged()) {
+             this.authService.getProfile()!.subscribe({
                  next:(response: User)=> {
 
                      this.currentUserProfile.set(response)
-                     console.log(this.currentUserProfile)
+                     console.log('Desde header...',this.currentUserProfile())
 
-                 }
+                 }, error: ((error: any) =>{
+                     console.log('No se pudo obtener el perfil del usuario...')
+                 })
              })
-         }
+        //  }
 
      }
 
@@ -92,7 +97,9 @@ export class HeaderComponent {
 
      //--------------------------------------------------------------------------------------------
      goToCart(){
+
          this.router.navigate(['products-in-cart'])
+
      }
 
  }

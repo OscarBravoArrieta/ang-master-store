@@ -85,7 +85,7 @@
      getProfile() {
 
          if(this.authService.isLogged()) {
-             this.authService.getProfile().subscribe({
+             this.authService.getProfile()!.subscribe({
                  next:(response: User)=> {
 
                      this.currentUserProfile.set(response)

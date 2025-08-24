@@ -19,7 +19,6 @@
 
      currentUserProfile = signal<User | null>(null)
 
-
      constructor() { }
 
      //--------------------------------------------------------------------------------------------
@@ -34,7 +33,7 @@
                  this.tokenService.saveToken(response)
              })
          ).pipe(
-             switchMap(() => this.getProfile())
+             switchMap(() => this.getProfile()!)
         )
 
      }
@@ -42,13 +41,12 @@
 
      isLogged() {
 
-         if(this.localStorageService.getItem('token')) {
-             return true
-         } else {
-             return false
-         }
+         const token = this.tokenService.getToken()
+         return token !== null
 
      }
+
+     //------------------------------------------------------------------------------------------------
 
      // -----------------------------------------------------------------------------------------------
 
@@ -56,6 +54,8 @@
 
          const token: Token | null = this.tokenService.getToken()
          const access_token: string | null = token ? token.access_token : null
+
+         //if(token == null) return null
 
          return this.http.get<User>(
 
