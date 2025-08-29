@@ -1,7 +1,7 @@
  import { HttpClient, HttpHeaders } from '@angular/common/http'
  import { Injectable, inject} from '@angular/core'
  import { AuthService } from './auth.service'
- import { User, UserToLog, UserToUpdate } from '@model/users.model'
+ import { User, UserToLog, UserToUpdate } from 'app/core/models/users.model'
  import { environment } from "@environments/environment.development"
  import { map, switchMap } from 'rxjs'
 

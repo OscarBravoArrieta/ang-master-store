@@ -4,7 +4,7 @@
  import { MessageService  } from 'primeng/api'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { CategoriesService } from '@services/categories.service'
- import { Category } from '@model/category.model'
+ import { Category } from '@models/category.model'
  import { Router, RouterModule } from '@angular/router'
 
  @Component({
@@ -104,7 +104,8 @@
                      this.messageService.add({
                          severity: 'info',
                          summary: 'Confirmed',
-                         detail: 'Registro guardado'
+                         detail: 'Registro guardado',
+                         life: 3000,
                      })
                      this.ref.close(this.formBuilder)
                  }, error: (error: any) => {

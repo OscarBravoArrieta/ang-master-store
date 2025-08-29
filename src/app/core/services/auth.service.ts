@@ -1,11 +1,12 @@
  import { inject, Injectable, signal, } from '@angular/core'
  import { HttpClient } from '@angular/common/http'
  import { environment } from '@environments/environment'
- import { UserToLog, Token, User } from '@model/users.model'
- import { LocalStorageService } from '@services/local-storage.service'
- import { TokenService } from '@services/token.service'
+ import { UserToLog, Token, User } from 'app/core/models/users.model'
+ import { LocalStorageService } from 'app/core/services/local-storage.service'
+ import { TokenService } from 'app/core/services/token.service'
  import { switchMap, tap } from 'rxjs/operators'
- import { Router } from '@angular/router';
+ import { Router } from '@angular/router'
+
 
  @Injectable({
      providedIn: 'root'
@@ -33,7 +34,7 @@
                  this.tokenService.saveToken(response)
              })
          ).pipe(
-             switchMap(() => this.getProfile()!)
+             switchMap(() => this.getProfile())
         )
 
      }
@@ -48,12 +49,9 @@
 
      //------------------------------------------------------------------------------------------------
 
-     // -----------------------------------------------------------------------------------------------
-
      getProfile() {
 
-         const token: Token | null = this.tokenService.getToken()
-         const access_token: string | null = token ? token.access_token : null
+         const access_token: string = this.tokenService.getToken()?.access_token
 
          return this.http.get<User>(
 
@@ -67,6 +65,7 @@
          )
 
      }
+
 
      // -------------------------------------------------------------------------------------------
 
@@ -91,3 +90,4 @@
      // -----------------------------------------------------------------------------------------------
 
  }
+

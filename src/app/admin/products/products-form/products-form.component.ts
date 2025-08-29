@@ -4,9 +4,9 @@
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
  import { ProductsService } from '@services/products.service'
  import { CategoriesService } from '@services/categories.service'
- import { Product, ProductToUpdate } from '@model/products.model'
+ import { Product, ProductToUpdate } from '@models/products.model'
  import { Router, RouterModule } from '@angular/router'
- import { SelectNumberInterface } from '@model/common-models'
+ import { SelectNumberInterface } from '@models/common-models'
 
  @Component({
      selector: 'app-products-form',

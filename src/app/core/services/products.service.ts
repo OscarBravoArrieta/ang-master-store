@@ -1,6 +1,6 @@
  import { HttpClient } from '@angular/common/http'
  import { Injectable, inject } from '@angular/core'
- import { Product, ProductToUpdate } from '@model/products.model'
+ import { Product, ProductToUpdate } from 'app/core/models/products.model'
  import { environment } from '@environments/environment'
 
 

@@ -2,8 +2,8 @@
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
  import { ProductsService } from '@services/products.service'
- import { Product } from '@model/products.model'
- import { DataSchema } from '@model/data-schema.model'
+ import { Product } from '@models/products.model'
+ import { DataSchema } from '@models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component'
 
 

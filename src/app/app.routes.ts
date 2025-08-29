@@ -3,7 +3,7 @@
  import { LayoutComponent } from '@layout/layout/layout.component'
  import { NotFoundComponent } from '@layout/not-found/not-found.component'
  import { UnauthorizedComponent } from '@layout/unauthorized/unauthorized.component'
- import { authGuard } from '@guards/auth.guard'
+ import { authGuard } from 'app/core/guards/auth.guard'
 
  export const routes: Routes = [
      {

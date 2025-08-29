@@ -1,6 +1,6 @@
  import { computed, effect, inject, Injectable, Injector, signal } from '@angular/core'
- import { LocalStorageService } from '@services/local-storage.service'
- import { Product } from '@model/products.model'
+ import { LocalStorageService } from 'app/core/services/local-storage.service'
+ import { Product } from 'app/core/models/products.model'
 
  @Injectable({
      providedIn: 'root'

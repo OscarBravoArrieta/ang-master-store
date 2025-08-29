@@ -1,9 +1,9 @@
  import { Component, inject, signal, SimpleChanges } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
- import { UsersService } from '@services/users.service'
- import { User } from '@model/users.model'
- import { DataSchema } from '@model/data-schema.model'
+ import { UsersService } from 'app/core/services/users.service'
+ import { User } from 'app/core/models/users.model'
+ import { DataSchema } from 'app/core/models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component'
 
  @Component({
@@ -26,9 +26,6 @@
          this.getUsers()
 
      }
-     //--------------------------------------------------------------------------------------------
-
-
      //--------------------------------------------------------------------------------------------
 
      getUsers() {

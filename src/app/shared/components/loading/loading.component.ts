@@ -1,4 +1,4 @@
- import { LoadingService } from '@services/loading.service'
+ import { LoadingService } from 'app/core/services/loading.service'
  import { Component, inject } from '@angular/core'
  import { PrimeNgModule } from '@import/primeng'
 
@@ -10,14 +10,6 @@
  })
  export class LoadingComponent {
 
-     private readonly loadingService = inject(LoadingService)
-     isLoading = this.loadingService.isLoading
-
-     ngOnInit() {
-
-         this.isLoading = this.loadingService.isLoading
-
-     }
-
+     isLoading = inject(LoadingService).isLoading
 
 }

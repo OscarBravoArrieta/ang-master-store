@@ -1,6 +1,6 @@
- import { Component, inject, input, signal } from '@angular/core'
+ import { Component, inject, input } from '@angular/core'
  import { PrimeNgModule } from '@import/primeng'
- import { Product } from '@model/products.model'
+ import { Product } from '@models/products.model'
  import { CurrencyPipe } from '@angular/common'
  import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
  import { AddToCartComponent } from '@dashboard/add-to-cart/add-to-cart.component'

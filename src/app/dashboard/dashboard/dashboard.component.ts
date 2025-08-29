@@ -1,9 +1,9 @@
  import { Component, inject, signal, SimpleChanges } from '@angular/core'
- import { CategoriesService } from '@services/categories.service'
- import { ProductsService } from '@services/products.service'
- import { Product } from '@model/products.model'
+ import { CategoriesService } from 'app/core/services/categories.service'
+ import { ProductsService } from 'app/core/services/products.service'
+ import { Product } from '@models/products.model'
  import { PrimeNgModule } from '@import/primeng'
- import { SelectStringInterface } from '@model/common-models'
+ import { SelectStringInterface } from '@models/common-models'
  import { Router, RouterModule } from '@angular/router'
  import { ProductDetailsComponent } from '@dashboard/product-details/product-details.component'
  import { AuthService } from '@services/auth.service'
@@ -38,7 +38,6 @@
          this.getCategories()
          this.getProducts()
          this.currentUserProfile = this.authService.currentUserProfile
-
 
      }
 
@@ -88,7 +87,6 @@
      //--------------------------------------------------------------------------------------------
      selectCategorie(event: any){
 
-
          this.idCategory.set(event.option.value)
          this.categoryName.set(event.option.name)
 
@@ -106,7 +104,5 @@
      }
 
      //--------------------------------------------------------------------------------------------
-
-
 
  }

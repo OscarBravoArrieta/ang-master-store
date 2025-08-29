@@ -1,5 +1,5 @@
- <div class="w-screen min-w-screen min-h-screen">
-     @if(currentUserProfile()?.role == "customer"){
+<div class="w-screen min-w-screen min-h-screen">
+      @if(currentUserProfile()?.role == "customer"){
         <div class="panel-content">
             <ng-container *ngTemplateOutlet="categories().length > 0 ? data : emptyData">
 
@@ -8,9 +8,9 @@
             <ng-template #data>
                 <p-splitter
                     [panelSizes]="[20, 80]"
-                    [style]="{ width: '100%', height: '100%' }">
+                    [style]="{ width: '100%', height: '100%'}">
                     <ng-template pTemplate="panel">
-                        <div class="panel-content">
+                        <div class="panel-content" [style]="{overflow: 'hidden' }">
 
                             <span class="text-surface-900 dark:text-surface-0 text-2xl !leading-tight mb-2">
                                 Categorías
@@ -73,7 +73,7 @@
                             <ng-template #emptyproducts>
                                 <div class="flex align-items-center justify-content-center min-w-screen min-h-screen">
                                     <i class="pi pi-search mr-2" style="font-size: 2rem"></i>
-                                    <span class="font-bold">Categoría "{{categoryName()}}", no tiene productos disponibles</span>
+                                    <span class="font-bold">Categoría "{{categoryName()}}", no tiene productos</span>
                                 </div>
                             </ng-template>
                         </div>
@@ -98,6 +98,4 @@
          </div>
 
      }
-
-
  </div>

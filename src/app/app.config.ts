@@ -7,7 +7,7 @@
 
  import { routes } from './app.routes'
  import { provideClientHydration, withEventReplay } from '@angular/platform-browser'
- import { loadingInterceptor } from './interceptors/loading.interceptor'
+ import { loadingInterceptor } from './core/interceptors/loading.interceptor'
 
  export const appConfig: ApplicationConfig = {
      providers: [

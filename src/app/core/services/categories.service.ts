@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable, inject } from '@angular/core'
-import { Category } from '@model/category.model'
+import { Category } from 'app/core/models/category.model'
 import { environment } from '@environments/environment'
 
 

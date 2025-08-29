@@ -3,7 +3,7 @@
  import { PrimeNgModule } from '@import/primeng'
  import { ProductsService } from '@services/products.service'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
- import { Product } from '@model/products.model'
+ import { Product } from '@models/products.model'
  import { CartService } from '@services/cart.service'
  import { CurrencyPipe } from '@angular/common'
 

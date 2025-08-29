@@ -2,12 +2,12 @@
  import { Validators, FormGroup, FormBuilder, FormsModule, ReactiveFormsModule, AbstractControl, ValidationErrors} from '@angular/forms'
  import { PrimeNgModule } from '@import/primeng'
  import { DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog'
- import { UsersService } from '@services/users.service'
- import { User, UserToUpdate } from '@model/users.model'
+ import { UsersService } from 'app/core/services/users.service'
+ import { User, UserToUpdate } from 'app/core/models/users.model'
  import { Router, RouterModule } from '@angular/router'
  import { CustomValidators } from '@utils/custom-validation'
  import { Select } from 'primeng/select'
- import { SelectStringInterface } from '@model/common-models'
+ import { SelectStringInterface } from 'app/core/models/common-models'
  import { catchError, map, Observable, of } from 'rxjs'
 
  @Component({

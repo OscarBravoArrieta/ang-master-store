@@ -5,7 +5,7 @@
  import { ConfirmationService, MessageService  } from 'primeng/api'
  import { FieldsetModule } from 'primeng/fieldset'
  import { PrimeNG } from 'primeng/config'
- import { User, UserToUpdate } from '@model/users.model'
+ import { User, UserToUpdate } from '@models/users.model'
  import { AuthService } from '@services/auth.service'
  import { UsersService } from '@services/users.service'
 

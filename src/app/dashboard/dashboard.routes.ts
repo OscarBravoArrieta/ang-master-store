@@ -1,5 +1,5 @@
  import { Routes } from '@angular/router';
- import { hasRoleGuard } from '@guards/has-role.guard';
+ import { hasRoleGuard } from 'app/core/guards/has-role.guard';
 
  export default [
      {

@@ -4,7 +4,7 @@
  import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
  import { AuthService } from '@services/auth.service'
  import { Router, RouterModule } from '@angular/router'
- import { UserToLog, User  } from '@model/users.model'
+ import { UserToLog, User  } from '@models/users.model'
  import { UserFormComponent } from '@admin/users/user-form/user-form.component'
 
 

@@ -33,16 +33,24 @@
      private productsService = inject(ProductsService)
      private exportService = inject(ExportService)
      dataSet = input<any[]>([])
-     isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
      dataSource = input<string>('')
+     isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
+
      cols = input<any[]>([])
      ref: DynamicDialogRef | undefined
+
+     //--------------------------------------------------------------------------------------------
+     ngOnInit() {
+
+     }
 
      //--------------------------------------------------------------------------------------------
 
      ngOnChanges(){
 
          this.isDisabled.set(this.dataSet().length === 0 ?  true: false)
+         const newData = [...this.dataSet()]
+         //console.log(newData)
 
      }
 
@@ -116,10 +124,12 @@
      }
 
      //--------------------------------------------------------------------------------------------
-     confirm(dataSource: string, id: number){
+     confirm(dataSource: string, rowData: any){
+
+         const item: string = dataSource  == 'products' ? ` el producto: ${rowData.title}`: ` la categoría: ${rowData.name}`
 
          this.confirmationService.confirm({
-             message: `Se eliminará el registro. ¿Desea continuar?` ,
+             message: `Se eliminará ${item}. ¿Desea continuar?` ,
              header: 'Confirmación',
              closable: true,
              closeOnEscape: false,
@@ -130,20 +140,20 @@
                  outlined: true,
              },
              acceptButtonProps: {
-                 label: 'Si, elimínalo por favor',
+                 label: 'Si, continua por favor',
              },
              accept: () => {
                  setTimeout(function(){
                      console.log("Intentando eliminar el registro");
                  }, 3000)
-                 this.deleteRecord(dataSource, id)
+                 this.deleteRecord(dataSource, rowData)
 
              },
              reject: () => {
                  this.messageService.add({
                      severity: 'error',
                      summary: 'Cancelado',
-                     detail: 'Eliminación cancelada',
+                     detail: 'Eliminación declinada',
                      life: 3000,
                  })
              },
@@ -175,15 +185,19 @@
 
      }
      //--------------------------------------------------------------------------------------------
-     deleteRecord(dataSource: string, id: number){
+     deleteRecord(dataSource: string, rowData: any){
 
          if(dataSource == 'categories'){
 
-             this.categoriesService.deleteCategory(id).subscribe({
+             this.categoriesService.deleteCategory(rowData.id).subscribe({
                  next:(response: boolean) => {
 
                      if (response){
-                         this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Se eliminó el registro' });
+                         this.messageService.add({
+                             severity: 'info',
+                             summary: 'Confirmado',
+                             detail: 'Se eliminó el registro'
+                         })
                      }
 
                      console.log('Estado de la eliminación: ', response)
@@ -201,7 +215,7 @@
 
          }
          if(dataSource == 'products'){
-             this.productsService.deleteProduct(id).subscribe({
+             this.productsService.deleteProduct(rowData.id).subscribe({
                  next:(response: boolean) => {
 
                      if (response){

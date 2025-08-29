@@ -1,9 +1,9 @@
  import { Component, inject, signal } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
- import { CategoriesService } from '@services/categories.service'
- import { Category } from '@model/category.model'
- import { DataSchema } from '@model/data-schema.model'
+ import { CategoriesService } from 'app/core/services/categories.service'
+ import { Category } from '@models/category.model'
+ import { DataSchema } from 'app/core/models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component'
 
  @Component({

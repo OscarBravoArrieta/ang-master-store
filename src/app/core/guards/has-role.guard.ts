@@ -1,7 +1,7 @@
- import { User } from '@model/users.model'
+ import { User } from 'app/core/models/users.model'
  import { inject } from '@angular/core'
  import { CanActivateFn, Router } from '@angular/router'
- import { AuthService } from '@services/auth.service'
+ import { AuthService } from 'app/core/services/auth.service'
  import { map } from 'rxjs'
 
 
@@ -11,7 +11,6 @@
      const router = inject(Router)
      const authService = inject(AuthService)
      const roles = route.data?.['roles'] as string[]
-     console.log('Roles: ',  roles )
 
      if(!authService.isLogged()) return false
 

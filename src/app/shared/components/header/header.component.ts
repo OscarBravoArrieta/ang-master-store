@@ -2,10 +2,10 @@
  import { RouterLink } from '@angular/router'
  import { PrimeNgModule } from '@import/primeng'
  import { MenuItem } from 'primeng/api'
- import { User } from '@model/users.model'
- import { AuthService } from '@services/auth.service'
- import { CartService } from '@services/cart.service'
- import { LocalStorageService } from '@services/local-storage.service'
+ import { User } from 'app/core/models/users.model'
+ import { AuthService } from 'app/core/services/auth.service'
+ import { CartService } from 'app/core/services/cart.service'
+ import { LocalStorageService } from 'app/core/services/local-storage.service'
  import { Router, RouterModule } from '@angular/router'
 
  @Component({
@@ -39,16 +39,9 @@ export class HeaderComponent {
 
      getProfile() {
 
-        //  if (this.currentUserProfile() === null) {
-        //      console.log('this.currentUserProfile()...',this.currentUserProfile())
-        //      return
-        //  }
-
          this.authService.getProfile().subscribe({
-             next:(response: User)=> {
+             next: (response: User)=> {
                  this.currentUserProfile.set(response)
-                 console.log('Desde header...',this.currentUserProfile())
-
              }, error: ((error: any) =>{
                  console.log('No se pudo obtener el perfil del usuario...')
              })
