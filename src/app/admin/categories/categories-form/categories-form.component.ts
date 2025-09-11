@@ -81,7 +81,8 @@
 
          if (this.mode() == 'new') {this.create()}
          if (this.mode() == 'edit') {this.update()}
-         this.router.navigate(['admin-categories-list'])
+
+
 
      }
 
@@ -108,6 +109,7 @@
                          life: 3000,
                      })
                      this.ref.close(this.formBuilder)
+                     this.router.navigate(['admin-categories-list'])
                  }, error: (error: any) => {
                      console.log('error-> ', error.error.message)
                      this.errorFromApi.set(error.statusText)
@@ -123,7 +125,6 @@
          this.statusForm.set(this.form.invalid)
          if (!this.form.valid) { return }
          const res = await this.categoriesService.uploadAvatar(this.image)
-         console.log('Res.location...',res.location)
          this.form.value.image = res.location
          const categoryToUpdate: Category = {
              name: this.form.value.name,

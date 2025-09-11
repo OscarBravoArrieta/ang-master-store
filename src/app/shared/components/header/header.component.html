@@ -1,5 +1,5 @@
 <div class = "layout-topbar mb-3">
-    <div class="flex justify-content-between flex-wrap card-container purple-container">
+    <div class="flex justify-content-between flex-wrap card-container">
         <div class="flex justify-content-start align-items-center flex-wrap">
             <p-image src="logos/my-eCommerce1.png" alt="Image" width="50%" routerLink = "/" class="cursor-pointer">
 
@@ -7,13 +7,14 @@
 
             @if(currentUserProfile()?.role == 'admin'){
 
-                 <p-button label="Categorías" size="small" [link]="true" routerLink = "/admin-categories-list"></p-button>
-                 <p-button label="Productos" size="small" [link]="true" routerLink = "/admin-products-list"></p-button>
-                 <p-button label="Usuarios" size="small" [link]="true" routerLink = "/admin-user-list"></p-button>
+                 <p-button label="Categorías" size="small"  styleClass="p-button-text text-gray-700 font-bold hidden md:inline-flex" routerLink = "/admin-categories-list"></p-button>
+                 <p-button label="Productos" icon = "pi pi-box" size="small"  styleClass="p-button-text text-gray-700 font-bold hidden md:inline-flex" routerLink = "/admin-products-list"></p-button>
+                 <p-button label="Usuarios" icon="pi pi-users" size="small"  styleClass="p-button-text text-gray-700 font-bold hidden md:inline-flex" routerLink = "/admin-user-list"></p-button>
 
             }
             @if(currentUserProfile()?.role == 'customer'){
-                 <p-button label="Ir a la tienda" size="small" [link]="true" routerLink = "/dashboard"></p-button>
+                 <p-button label="Ir a la tienda" icon = "pi pi-shop" size="small"  styleClass="p-button-text text-gray-700 font-bold hidden md:inline-flex" routerLink = "/dashboard"></p-button>
+
             }
 
         </div>
@@ -35,7 +36,7 @@
                    <div class="card flex">
                         <p class="green-50 text-sm">
 
-                            Hola, {{this.currentUserProfile() ? currentUserProfile()?.name : ''}}. Te doy la Bienvenida
+                            Hola, {{this.currentUserProfile() ? currentUserProfile()?.name : ''}}. Que bueno verte.
 
                         </p>
 

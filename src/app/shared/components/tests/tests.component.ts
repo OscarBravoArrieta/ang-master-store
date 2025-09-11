@@ -5,27 +5,26 @@
  import { PrimeNgModule } from '@import/primeng'
  import { SelectStringInterface } from '@models/common-models'
  import { Router, RouterModule } from '@angular/router'
- import { ProductDetailsComponent } from '@dashboard/product-details/product-details.component'
+//  import { ProductDetailsComponent } from '@dashboard/product-details/product-details.component'
  import { AuthService } from '@services/auth.service'
- import { SearchProductPipe } from '@pipes/search-product.pipe'
+//  import { SearchProductPipe } from '@pipes/search-product.pipe'
  import { FormsModule } from '@angular/forms'
  import { CommonModule } from '@angular/common'
 
  @Component({
-     selector: 'app-dashboard',
+     selector: 'app-tests',
      imports: [
          PrimeNgModule,
          RouterModule,
-         ProductDetailsComponent,
+         //ProductDetailsComponent,
          FormsModule,
          CommonModule,
-         SearchProductPipe
+         //SearchProductPipe
      ],
-     templateUrl: './dashboard.component.html',
-     styleUrl: './dashboard.component.scss'
+     templateUrl: './tests.component.html',
+     styleUrl: './tests.component.scss'
  })
- export default class DashboardComponent {
-
+ export default class TestsComponent {
      private productService = inject(ProductsService)
      private categoriesService = inject(CategoriesService)
      readonly authService = inject(AuthService)
@@ -39,7 +38,7 @@
 
      currentUserProfile = this.authService.currentUserProfile
 
-     //--------------------------------------------------------------------------------------------
+     sidebarVisible = false;
 
      ngOnInit() {
 
@@ -57,6 +56,7 @@
      }
 
      //--------------------------------------------------------------------------------------------
+
      getCategories() {
 
          this.categoriesService.getCategories().subscribe( {
@@ -113,4 +113,7 @@
 
      //--------------------------------------------------------------------------------------------
 
- }
+}
+
+
+

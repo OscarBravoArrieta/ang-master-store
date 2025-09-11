@@ -1,17 +1,8 @@
- .fixed-panel{
-     padding: 1rem;
-     background-color: #f0f0f0;
-     height: 100%;
-     overflow: hidden;
+
+ .grid-products{
+
+     height: calc(100vh - 13rem);
+     background-color:  #f0f0f0
 
  }
- .scroll-panel {
-     height: 100%;
-     overflow: auto;
-     padding: 1rem;
-     background-color: #ffffff;
- }
 
- .long-content {
-     height: auto;
- }

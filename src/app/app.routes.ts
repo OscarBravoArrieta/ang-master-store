@@ -1,15 +1,19 @@
+import { Component } from '@angular/core';
 
  import { Routes } from '@angular/router'
  import { LayoutComponent } from '@layout/layout/layout.component'
  import { NotFoundComponent } from '@layout/not-found/not-found.component'
  import { UnauthorizedComponent } from '@layout/unauthorized/unauthorized.component'
+
  import { authGuard } from 'app/core/guards/auth.guard'
 
  export const routes: Routes = [
      {
+
          path: '',
          title: 'Página inicial',
          component: LayoutComponent,
+
 
          children: [
              {
@@ -31,13 +35,14 @@
                  title: 'No autorizado',
                  component: UnauthorizedComponent
              },
+
              {
                  path:'**',
                  component: NotFoundComponent
              },
 
-         ]
-     },
+         ],
 
 
+     }
  ]

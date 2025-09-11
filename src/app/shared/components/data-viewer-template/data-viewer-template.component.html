@@ -1,10 +1,10 @@
 <div>
-     <p-toast />
+     <p-toast/>
      <p-confirmdialog />
 
      <p-table #dt
          [columns] = "cols()"
-         [value] = "dataSet()"
+         [value] = "data()"
          responsiveLayout = "scroll"
          [paginator] = "true"
          currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
@@ -55,7 +55,7 @@
          <ng-template #header let-columns>
              <tr class="p-selectable-row font-bold text-primary">
                  @if(dataSet().length > 0) {
-                     @for (col of columns; track col) {
+                     @for (col of columns; track col.field) {
                          <th pSortableColumn="{{col.field}}" pSortableColumnDisabled="{{col.sortableColumnDisabled}}">
 
                              {{col.header}}
@@ -154,7 +154,7 @@
         </tr>
          </ng-template>
          <ng-template pTemplate="summary">
-             <span class = "font-sub-title">Total registros en esta vista: {{dataSet().length | number }} </span>
+             <span class = "font-sub-title">Total registros en esta vista: {{data().length | number }} </span>
          </ng-template>
      </p-table>
  </div>

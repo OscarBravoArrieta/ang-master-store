@@ -1,23 +1,30 @@
-import { HttpClient } from '@angular/common/http'
-import { Injectable, inject } from '@angular/core'
-import { Category } from 'app/core/models/category.model'
-import { environment } from '@environments/environment'
+ import { HttpClient } from '@angular/common/http'
+ import { Injectable, inject, signal } from '@angular/core'
+ import { Category } from 'app/core/models/category.model'
+ import { environment } from '@environments/environment'
+ import { tap } from 'rxjs'
 
 
-@Injectable({
-  providedIn: 'root'
-})
-export class CategoriesService {
+ @Injectable({
+     providedIn: 'root'
+ })
+ export class CategoriesService {
 
      private http = inject(HttpClient)
      private readonly endPoint = environment.API_URL
+
+     categories = signal<Category[]>([])
 
      constructor() { }
 
     //--------------------------------------------------------------------------------------------
      getCategories() {
 
-         return this.http.get<Category[]>(`${this.endPoint}/categories`)
+         return this.http.get<Category[]>(`${this.endPoint}/categories`).pipe(
+             tap(categories => {
+                 this.categories.set(categories)
+             })
+         )
 
      }
 

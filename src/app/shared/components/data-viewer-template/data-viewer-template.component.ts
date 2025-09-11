@@ -1,4 +1,5 @@
- import { Component, inject, input, signal } from '@angular/core'
+
+ import { Component, inject, input, signal, effect } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
  import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
@@ -6,9 +7,13 @@
  import { ProductsFormComponent } from '@admin/products/products-form/products-form.component'
  import { CategoriesFormComponent } from '@admin/categories/categories-form/categories-form.component'
  import { ConfirmationService, MessageService  } from 'primeng/api'
+ import { UsersService } from '@services/users.service'
  import { CategoriesService } from '@services/categories.service'
  import { ProductsService } from '@services/products.service'
  import { ExportService } from '@services/export.service'
+ import { Category } from '@models/category.model'
+ import { User } from '@models/users.model'
+ import { Product } from '@models/products.model'
 
  @Component({
      selector: 'app-data-viewer-template',
@@ -31,17 +36,21 @@
      readonly messageService = inject(MessageService)
      private categoriesService = inject(CategoriesService)
      private productsService = inject(ProductsService)
+     private usersService = inject(UsersService)
      private exportService = inject(ExportService)
      dataSet = input<any[]>([])
      dataSource = input<string>('')
-     isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
+     data = signal<any[]>([])
 
+     isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
      cols = input<any[]>([])
      ref: DynamicDialogRef | undefined
 
-     //--------------------------------------------------------------------------------------------
-     ngOnInit() {
+     constructor() {
 
+         effect(() => {
+             this.data.set([...this.dataSet()]) //synchronize the internal signal with the input
+         })
      }
 
      //--------------------------------------------------------------------------------------------
@@ -49,8 +58,6 @@
      ngOnChanges(){
 
          this.isDisabled.set(this.dataSet().length === 0 ?  true: false)
-         const newData = [...this.dataSet()]
-         //console.log(newData)
 
      }
 
@@ -61,7 +68,7 @@
          switch(this.dataSource()) {
              case "users": {
                  this.ref = this.dialogService.open(UserFormComponent, {
-                     header: 'Manage record ' + this.dataSource(),
+                     header: 'Gestionando ' + this.dataSource(),
                      data: {
                          id,
                          mode
@@ -77,11 +84,27 @@
                          '640px': '90vw'
                      },
                  })
+                 this.ref.onClose.subscribe((user: User) => {
+
+                     if (user) {
+                         this.usersService.getUsers().subscribe({
+                             next: (newData) => {
+                                 this.data.set(newData)
+                                 this.messageService.add({
+                                     severity: 'success',
+                                     summary: 'Usuario guardado',
+                                     detail: ''
+                                 })
+                             }
+                         })
+                     }
+                 })
                  break
+
              }
              case "products": {
                  this.ref = this.dialogService.open(ProductsFormComponent, {
-                     header: 'Manage record ' + this.dataSource(),
+                     header: 'Gestionando ' + this.dataSource(),
                      data: {
                          id: id,
                          mode
@@ -94,15 +117,30 @@
                      draggable: true,
                      modal:true,
                      breakpoints: {
-                         '960px': '75vw',
+                         '960px': '50vw',
                          '640px': '90vw'
                      },
                  })
-                  break
+                 this.ref.onClose.subscribe((product: Product) => {
+
+                     if (product) {
+                         this.productsService.getProducts().subscribe({
+                             next: (newData) => {
+                                 this.data.set(newData)
+                                 this.messageService.add({
+                                     severity: 'success',
+                                     summary: 'Producto guardado',
+                                     detail: ''
+                                 })
+                             }
+                         })
+                     }
+                 })
+                 break
              }
              case "categories": {
                  this.ref = this.dialogService.open(CategoriesFormComponent, {
-                     header: 'Manage record ' + this.dataSource(),
+                     header: 'Gestionando ' + this.dataSource(),
                      data: {
                          id: id,
                          mode
@@ -117,6 +155,21 @@
                          '960px': '75vw',
                          '640px': '90vw'
                      },
+                 })
+
+                 this.ref.onClose.subscribe((category: Category) => {
+                     if (category) {
+                         this.categoriesService.getCategories().subscribe({
+                             next: (newData) => {
+                                 this.data.set(newData)
+                                 this.messageService.add({
+                                     severity: 'success',
+                                     summary: 'Categoría guardada',
+                                     detail: ''
+                                 })
+                             }
+                         })
+                     }
                  })
                  break
              }
@@ -240,8 +293,10 @@
      //--------------------------------------------------------------------------------------------
 
      export(){
+
          let fileDate = new Date().toISOString()
          this.exportService.exportJsonToExcel(this.dataSet(), this.dataSource() + '-' + fileDate)
+
      }
 
      //--------------------------------------------------------------------------------------------
@@ -251,6 +306,7 @@
          if (this.ref) {
              this.ref.close()
          }
+
      }
 
      //--------------------------------------------------------------------------------------------

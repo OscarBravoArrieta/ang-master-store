@@ -3,6 +3,7 @@
  import { Product } from '@models/products.model'
  import { CurrencyPipe } from '@angular/common'
  import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
+  import { MessageService  } from 'primeng/api'
  import { AddToCartComponent } from '@dashboard/add-to-cart/add-to-cart.component'
 
  @Component({
@@ -12,7 +13,8 @@
          CurrencyPipe,
      ],
      providers: [
-         DialogService
+         DialogService,
+         MessageService
      ],
      templateUrl: './product-details.component.html',
      styleUrl: './product-details.component.scss'
@@ -20,6 +22,7 @@
  export class ProductDetailsComponent {
 
      private dialogService = inject(DialogService)
+     readonly messageService = inject(MessageService)
      product = input<Product>()
      ref: DynamicDialogRef | undefined
      //--------------------------------------------------------------------------------------------
@@ -48,6 +51,15 @@
              },
 
          })
+        this.ref.onClose.subscribe((product: Product) => {
+             if (product) {
+                 this.messageService.add({
+                     severity: 'success',
+                     summary: 'Producto agregado',
+                     detail: ''
+                 })
+             }
+        })
      }
 
     //--------------------------------------------------------------------------------------------

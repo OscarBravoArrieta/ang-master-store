@@ -15,6 +15,8 @@
          path: 'products-in-cart',
          title: 'Productos en el carrito',
          loadComponent: () => import ('@shared/cart/cart.component'),
-
+     },
+     {   path: 'test',
+         loadComponent: () => import ('@shared/tests/tests.component')
      }
  ] as Routes

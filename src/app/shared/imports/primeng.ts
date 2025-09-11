@@ -31,6 +31,8 @@
  import { SplitterModule } from 'primeng/splitter'
  import { DialogModule } from 'primeng/dialog'
  import { ProgressSpinnerModule } from 'primeng/progressspinner'
+ import { PanelMenuModule } from 'primeng/panelmenu'
+
 
  @NgModule({
      declarations: [],
@@ -66,7 +68,8 @@
          OverlayBadgeModule,
          SplitterModule,
          DialogModule,
-         ProgressSpinnerModule
+         ProgressSpinnerModule,
+         PanelMenuModule
 
      ],
      exports: [
@@ -86,6 +89,7 @@
          TooltipModule,
          IconFieldModule,
          InputIconModule,
+         ToolbarModule,
          FileUploadModule,
          SelectModule,
          ConfirmPopupModule,
@@ -99,7 +103,8 @@
          OverlayBadgeModule,
          SplitterModule,
          DialogModule,
-         ProgressSpinnerModule
+         ProgressSpinnerModule,
+         PanelMenuModule
      ]
  })
  export class PrimeNgModule {}

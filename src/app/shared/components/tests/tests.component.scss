@@ -1,0 +1,36 @@
+
+ main {
+
+     display: flex;
+ }
+
+ aside {
+
+     width:15%;
+     height: 100vh;
+     background-color: wheat;
+     position: fixed;
+     top: 7rem;
+     left: 0;
+
+ }
+
+//  .left-side {
+//      background-color: wheat;
+
+//  }
+
+ .contenido{
+     //width: 85%;
+     height: calc(100vh - 12rem);
+     //width: 100%;
+     background-color: blue;
+     /* Esto equilibria lo del aside */
+     //position: relative;
+     //top: 0;
+     //left: 30%;
+ }
+ .sub-header{
+     position: fixed;
+ }
+

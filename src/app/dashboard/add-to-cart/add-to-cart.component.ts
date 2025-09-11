@@ -15,6 +15,7 @@
          ReactiveFormsModule,
          CurrencyPipe
      ],
+
      templateUrl: './add-to-cart.component.html',
      styleUrl: './add-to-cart.component.scss'
  })

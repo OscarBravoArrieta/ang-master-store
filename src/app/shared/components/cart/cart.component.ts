@@ -198,6 +198,12 @@
      delete(id: number | undefined) {
 
          this.cartService.delete(id)
+         this.messageService.add({
+             severity: 'success',
+             summary: 'Producto eliminado',
+             detail: '',
+             life: 3000,
+         })
          this.getProducts()
 
      }

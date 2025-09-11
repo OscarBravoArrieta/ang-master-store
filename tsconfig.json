@@ -20,6 +20,7 @@
         "@interceptors" :["app/core/interceptors/*"],
         "@models/*": ["app/core/models/*"],
         "@services/*": ["app/core/services/*"],
+        "@pipes/*": ["app/core/pipes/*"],
         "@utils/*": ["app/shared/utils/*"],
 
     },
