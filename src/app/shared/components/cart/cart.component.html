@@ -21,17 +21,18 @@
      <p-table #dt
          [columns] = "cols()"
          [value] = "cart()"
+         [rowHover]="true"
          responsiveLayout = "scroll"
          [paginator] = "true"
          currentPageReportTemplate = "Mostrando {first} a {last} de {totalRecords} entradas"
-         [rows] = "10" [showCurrentPageReport]="true"
+         [rows] = "10"
+         [showCurrentPageReport]="true"
          [rowsPerPageOptions]="[10,25,50]"
          stripedRows
          styleClass = "p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-customers"
          [scrollable] = "true"
          scrollHeight = "350px"
-         [tableStyle] = "{'min-width': '75rem'}"
-         [autoLayout] = "true">
+         [tableStyle] = "{'min-width': '75rem'}">
          <ng-template pTemplate="caption">
              <div class="flex align-items-center justify-content-between">
                  <span class="text-2xl font-bold text-red-500" >Products in cart</span>
@@ -108,10 +109,18 @@
                                  <span> {{rowData[col.field].name}}</span>
                              }
                              @case('image-array'){
-                                 <p-image src="{{rowData[col.field][0]}}" width="30" [preview]="true"/>
+                                 <div class="flex justify-content-center">
+                                     <p-image src="{{rowData[col.field][0]}}" width="30" [preview]="true"/>
+                                 </div>
+
                              }
                              @case('image'){
-                                 <img src="{{rowData[col.field]}}" crossorigin="anonymous" width="30"/>
+                                 <div class="flex justify-content-center">
+
+                                     <img src="{{rowData[col.field]}}" crossorigin="anonymous" width="30"/>
+
+                                 </div>
+
                              }
                          }
                      </td>

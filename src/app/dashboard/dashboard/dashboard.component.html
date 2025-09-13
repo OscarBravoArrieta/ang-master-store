@@ -64,7 +64,7 @@
 
                             </p-toolbar>
                         </div>
-                        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 border-round overflow-auto justify-content-center w-full min-w-full min-h-full border-round grid-products m-1">
+                        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 border-round overflow-auto justify-content-center w-full min-w-full min-h-full border-round grid-products min-w-full m-1">
                             @for (product of products() | searchProduct: searchValue; track product  ) {
 
                                 <app-product-details

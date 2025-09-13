@@ -6,7 +6,6 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "./src/",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
     "paths": {
         "@admin/*": ["app/admin/*"],
         "@auth/*": ["app/auth/*"],

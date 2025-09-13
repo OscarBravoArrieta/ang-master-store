@@ -55,8 +55,8 @@
              {field: 'role', header: 'Role', sortableColumnDisabled: false, contentType: 'string' },
              {field: 'email', header: 'Email', sortableColumnDisabled: false, contentType: 'string' },
              {field: 'avatar', header: 'Avatar', sortableColumnDisabled: true, contentType: 'image-avatar' },
-             {field: 'creationAt', header: 'Creation Date', sortableColumnDisabled: false, contentType: 'string' },
-             {field: 'updatedAt', header: 'Update Date', sortableColumnDisabled: false, contentType: 'string' },
+             {field: 'creationAt', header: 'Creation Date', sortableColumnDisabled: false, contentType: 'date' },
+             {field: 'updatedAt', header: 'Update Date', sortableColumnDisabled: false, contentType: 'date' },
 
          ])
      }
