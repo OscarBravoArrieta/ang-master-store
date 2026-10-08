@@ -6,6 +6,8 @@
  import { Category } from '@models/category.model'
  import { DataSchema } from 'app/core/models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component';
+ import { EntityConfig } from '@models/entity-config.model'
+ import { CategoriesFormComponent } from '@admin/categories/categories-form/categories-form.component'
 
 
  @Component({
@@ -23,7 +25,14 @@
      readonly categoriesService = inject (CategoriesService)
      dataSet = signal<Category[]>(this.categoriesService.categories())
 
-     dataSource = signal<string>('categories')
+     config: EntityConfig<Category> = {
+         title: 'categories',
+         form: CategoriesFormComponent,
+         load: () => this.categoriesService.getCategories(),
+         remove: (category) => this.categoriesService.deleteCategory(category.id!),
+         describe: (category) => `la categoría: ${category.name}`,
+         savedMsg: 'Categoría guardada',
+     }
      cols = signal<DataSchema[]>([])
 
      constructor() {

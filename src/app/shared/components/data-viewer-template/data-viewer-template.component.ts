@@ -2,18 +2,10 @@
  import { Component, inject, input, signal, effect } from '@angular/core'
  import { CommonModule } from '@angular/common'
  import { PrimeNgModule } from '@import/primeng'
- import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
- import { UserFormComponent } from '@admin/users/user-form/user-form.component'
- import { ProductsFormComponent } from '@admin/products/products-form/products-form.component'
- import { CategoriesFormComponent } from '@admin/categories/categories-form/categories-form.component'
+ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog'
  import { ConfirmationService, MessageService  } from 'primeng/api'
- import { UsersService } from '@services/users.service'
- import { CategoriesService } from '@services/categories.service'
- import { ProductsService } from '@services/products.service'
  import { ExportService } from '@services/export.service'
- import { Category } from '@models/category.model'
- import { User } from '@models/users.model'
- import { Product } from '@models/products.model'
+ import { EntityConfig } from '@models/entity-config.model'
 
  @Component({
      selector: 'app-data-viewer-template',
@@ -34,17 +26,27 @@
      private dialogService = inject(DialogService)
      readonly confirmationService = inject(ConfirmationService)
      readonly messageService = inject(MessageService)
-     private categoriesService = inject(CategoriesService)
-     private productsService = inject(ProductsService)
-     private usersService = inject(UsersService)
      private exportService = inject(ExportService)
      dataSet = input<any[]>([])
-     dataSource = input<string>('')
+     config = input.required<EntityConfig>()
      data = signal<any[]>([])
 
      isDisabled = signal<boolean>(this.dataSet().length === 0 ?  true: false)
      cols = input<any[]>([])
      ref: DynamicDialogRef | undefined
+
+     private baseDialog: DynamicDialogConfig = {
+         width: '30vw',
+         closeOnEscape: false,
+         contentStyle: { overflow: 'auto' },
+         closable: true,
+         draggable: true,
+         modal: true,
+         breakpoints: {
+             '960px': '75vw',
+             '640px': '90vw'
+         },
+     }
 
      constructor() {
 
@@ -65,121 +67,28 @@
 
      callDialog(id = null, mode: string) {
 
-         switch(this.dataSource()) {
-             case "users": {
-                 this.ref = this.dialogService.open(UserFormComponent, {
-                     header: 'Gestionando ' + this.dataSource(),
-                     data: {
-                         id,
-                         mode
-                     },
-                     width: 'w-30rem',
-                     closeOnEscape: false,
-                     contentStyle: { overflow: 'auto' },
-                     closable: true,
-                     draggable: true,
-                     modal:true,
-                     breakpoints: {
-                         '960px': '75vw',
-                         '640px': '90vw'
-                     },
-                 })
-                 this.ref.onClose.subscribe((user: User) => {
+         const config = this.config()
 
-                     if (user) {
-                         this.usersService.getUsers().subscribe({
-                             next: (newData) => {
-                                 this.data.set(newData)
-                                 this.messageService.add({
-                                     severity: 'success',
-                                     summary: 'Usuario guardado',
-                                     detail: ''
-                                 })
-                             }
-                         })
-                     }
-                 })
-                 break
-
+         this.ref = this.dialogService.open(config.form, {
+             ...this.baseDialog,
+             header: 'Gestionando ' + config.title,
+             ...config.dialog,
+             data: {
+                 id,
+                 mode
+             },
+         })
+         this.ref.onClose.subscribe((record: unknown) => {
+             if (record) {
+                 this.reload(config.savedMsg)
              }
-             case "products": {
-                 this.ref = this.dialogService.open(ProductsFormComponent, {
-                     header: 'Gestionando ' + this.dataSource(),
-                     data: {
-                         id: id,
-                         mode
-                     },
-                     width: '40vw',
-                     height: '100vw',
-                     closeOnEscape: false,
-                     contentStyle: { overflow: 'auto' },
-                     closable: true,
-                     draggable: true,
-                     modal:true,
-                     breakpoints: {
-                         '960px': '50vw',
-                         '640px': '90vw'
-                     },
-                 })
-                 this.ref.onClose.subscribe((product: Product) => {
-
-                     if (product) {
-                         this.productsService.getProducts().subscribe({
-                             next: (newData) => {
-                                 this.data.set(newData)
-                                 this.messageService.add({
-                                     severity: 'success',
-                                     summary: 'Producto guardado',
-                                     detail: ''
-                                 })
-                             }
-                         })
-                     }
-                 })
-                 break
-             }
-             case "categories": {
-                 this.ref = this.dialogService.open(CategoriesFormComponent, {
-                     header: 'Gestionando ' + this.dataSource(),
-                     data: {
-                         id: id,
-                         mode
-                     },
-                     width: '30vw',
-                     closeOnEscape: false,
-                     contentStyle: { overflow: 'auto' },
-                     closable: true,
-                     draggable: true,
-                     modal:true,
-                     breakpoints: {
-                         '960px': '75vw',
-                         '640px': '90vw'
-                     },
-                 })
-
-                 this.ref.onClose.subscribe((category: Category) => {
-                     if (category) {
-                         this.categoriesService.getCategories().subscribe({
-                             next: (newData) => {
-                                 this.data.set(newData)
-                                 this.messageService.add({
-                                     severity: 'success',
-                                     summary: 'Categoría guardada',
-                                     detail: ''
-                                 })
-                             }
-                         })
-                     }
-                 })
-                 break
-             }
-         }
+         })
      }
 
      //--------------------------------------------------------------------------------------------
-     confirm(dataSource: string, rowData: any){
+     confirm(rowData: any){
 
-         const item: string = dataSource  == 'products' ? ` el producto: ${rowData.title}`: ` la categoría: ${rowData.name}`
+         const item: string = this.config().describe?.(rowData) ?? 'el registro'
 
          this.confirmationService.confirm({
              message: `Se eliminará ${item}. ¿Desea continuar?` ,
@@ -196,10 +105,7 @@
                  label: 'Si, continua por favor',
              },
              accept: () => {
-                 setTimeout(function(){
-                     console.log("Intentando eliminar el registro");
-                 }, 3000)
-                 this.deleteRecord(dataSource, rowData)
+                 this.deleteRecord(rowData)
 
              },
              reject: () => {
@@ -238,56 +144,38 @@
 
      }
      //--------------------------------------------------------------------------------------------
-     deleteRecord(dataSource: string, rowData: any){
+     deleteRecord(rowData: any){
 
-         if(dataSource == 'categories'){
-
-             this.categoriesService.deleteCategory(rowData.id).subscribe({
-                 next:(response: boolean) => {
-
-                     if (response){
-                         this.messageService.add({
-                             severity: 'info',
-                             summary: 'Confirmado',
-                             detail: 'Se eliminó el registro'
-                         })
-                     }
-
-                     console.log('Estado de la eliminación: ', response)
-
-                 }, error: (error: any) => {
-                     console.log(error.statusText)
-                     this.messageService.add({
-                         severity: 'error',
-                         summary: 'Error',
-                         detail: 'Error: ' + error.statusText,
-                         life: 3000,
-                     })
+         this.config().remove!(rowData).subscribe({
+             next: (response: boolean) => {
+                 if (response) {
+                     this.reload('Se eliminó el registro')
                  }
-              })
+             }, error: (error: any) => {
+                 this.messageService.add({
+                     severity: 'error',
+                     summary: 'Error',
+                     detail: 'Error: ' + error.statusText,
+                     life: 3000,
+                 })
+             }
+         })
+     }
 
-         }
-         if(dataSource == 'products'){
-             this.productsService.deleteProduct(rowData.id).subscribe({
-                 next:(response: boolean) => {
+     //--------------------------------------------------------------------------------------------
 
-                     if (response){
-                         this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Se eliminó el registro' });
-                     }
+     private reload(detail: string) {
 
-                     console.log('Estado de la eliminación: ', response)
-
-                 }, error: (error: any) => {
-                     this.messageService.add({
-                         severity: 'error',
-                         summary: 'Error',
-                         detail: 'Error' + error,
-                         life: 3000,
-                     })
-                 }
-             })
-         }
-
+         this.config().load().subscribe({
+             next: (newData) => {
+                 this.data.set(newData)
+                 this.messageService.add({
+                     severity: 'success',
+                     summary: detail,
+                     detail: ''
+                 })
+             }
+         })
      }
 
      //--------------------------------------------------------------------------------------------
@@ -295,7 +183,7 @@
      export(){
 
          let fileDate = new Date().toISOString()
-         this.exportService.exportJsonToExcel(this.dataSet(), this.dataSource() + '-' + fileDate)
+         this.exportService.exportJsonToExcel(this.dataSet(), this.config().title + '-' + fileDate)
 
      }
 

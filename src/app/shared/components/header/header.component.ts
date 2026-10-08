@@ -42,6 +42,7 @@ export class HeaderComponent {
          this.authService.getProfile().subscribe({
              next: (response: User)=> {
                  this.currentUserProfile.set(response)
+                 console.log(this.currentUserProfile());
              }, error: ((error: any) =>{
                  console.log('No se pudo obtener el perfil del usuario...')
              })

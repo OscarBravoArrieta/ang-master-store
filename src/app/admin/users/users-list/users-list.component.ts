@@ -5,6 +5,8 @@
  import { User } from 'app/core/models/users.model'
  import { DataSchema } from 'app/core/models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component'
+ import { EntityConfig } from '@models/entity-config.model'
+ import { UserFormComponent } from '@admin/users/user-form/user-form.component'
 
  @Component({
      selector: 'app-users-list',
@@ -16,7 +18,12 @@
 
      readonly userService = inject (UsersService)
      dataSet = signal<User[]>([])
-     dataSource = signal<string>('users')
+     config: EntityConfig<User> = {
+         title: 'users',
+         form: UserFormComponent,
+         load: () => this.userService.getUsers(),
+         savedMsg: 'Usuario guardado',
+     }
      cols = signal<DataSchema[]>([])
 
      //--------------------------------------------------------------------------------------------

@@ -18,7 +18,7 @@
          [tableStyle] = "{'min-width': '75rem'}">
          <ng-template pTemplate="caption">
              <div class="flex align-items-center justify-content-between">
-                 <span class="text-2xl font-bold text-red-500" >{{dataSource() | titlecase }}</span>
+                 <span class="text-2xl font-bold text-red-500" >{{config().title | titlecase }}</span>
                  <div class = "flex align-items-end">
 
                      <p-iconfield>
@@ -138,10 +138,10 @@
                              pTooltip = "Actualizar">
                          </p-button>
 
-                         @if(this.dataSource() == 'products' || this.dataSource() == 'categories') {
+                         @if(config().remove) {
                              <p-button
                                  class = ""
-                                 (click) = "confirm(this.dataSource(), rowData)"
+                                 (click) = "confirm(rowData)"
                                  icon = "pi pi-trash"
                                  styleClass = "p-button-sm p-button-rounded p-button-outlined"
                                  pTooltip = "Borrar">

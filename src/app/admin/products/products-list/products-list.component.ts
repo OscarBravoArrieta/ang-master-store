@@ -5,6 +5,8 @@
  import { Product } from '@models/products.model'
  import { DataSchema } from '@models/data-schema.model'
  import { DataViewerTemplateComponent } from '@layout/data-viewer-template/data-viewer-template.component'
+ import { EntityConfig } from '@models/entity-config.model'
+ import { ProductsFormComponent } from '@admin/products/products-form/products-form.component'
 
 
  @Component({
@@ -17,7 +19,22 @@
 
      readonly productsService = inject (ProductsService)
      dataSet = signal<Product[]>([])
-     dataSource = signal<string>('products')
+     config: EntityConfig<Product> = {
+         title: 'products',
+         form: ProductsFormComponent,
+         dialog: {
+             width: '40vw',
+             height: '100vw',
+             breakpoints: {
+                 '960px': '50vw',
+                 '640px': '90vw'
+             },
+         },
+         load: () => this.productsService.getProducts(),
+         remove: (product) => this.productsService.deleteProduct(product.id!),
+         describe: (product) => `el producto: ${product.title}`,
+         savedMsg: 'Producto guardado',
+     }
      cols = signal<DataSchema[]>([])
 
      //--------------------------------------------------------------------------------------------
